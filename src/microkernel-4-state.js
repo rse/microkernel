@@ -124,7 +124,7 @@ export default class MicrokernelState {
 
         /*  special case: transit to same state  */
         if (stateNew === stateOld)
-            return Promise.resolved(stateNew)
+            return Promise.resolve(stateNew)
 
         /*  sanity check new state  */
         if (states.state2num[stateNew] === undefined)
