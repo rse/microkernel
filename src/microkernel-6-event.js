@@ -33,8 +33,8 @@ export default class MicrokernelEvent {
     }
 
     /*  convenience method  */
-    on (name, cb, ctx) {
-        return this.subscribe(name, cb, ctx)
+    on () {
+        return this.subscribe.apply(this, arguments)
     }
 
     /*  subscribe for event  */

@@ -30,8 +30,8 @@ export default class MicrokernelService {
     }
 
     /*  convenience method  */
-    sv (name, ...params) {
-        return this.service(name, ...params)
+    sv () {
+        return this.service.apply(this, arguments)
     }
 
     /*  register service  */

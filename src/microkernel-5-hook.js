@@ -49,8 +49,8 @@ export default class MicrokernelHook {
     }
 
     /*  convenience method  */
-    at (name, cb, ctx) {
-        return this.latch(name, cb, ctx)
+    at () {
+        return this.latch.apply(this, arguments)
     }
 
     /*  latch into hook  */

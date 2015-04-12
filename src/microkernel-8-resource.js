@@ -30,8 +30,8 @@ export default class MicrokernelResource {
     }
 
     /*  convenience method  */
-    rs (key, value) {
-        return this.resource(key, value)
+    rs () {
+        return this.resource.apply(this, arguments)
     }
 
     /*  get/set resource  */
