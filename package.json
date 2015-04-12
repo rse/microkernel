@@ -1,8 +1,12 @@
 {
     "name":        "microkernel",
-    "version":     "0.9.0",
+    "version":     "0.9.1",
     "description": "Microkernel for Server Applications",
-    "keywords":    [ "micro", "kernel", "server" ],
+    "keywords": [
+        "micro", "kernel", "server",
+        "module", "life-cycle", "state",
+        "hook", "event", "service", "resource"
+    ],
     "main":        "lib/microkernel.js",
     "repository": {
         "type": "git",
