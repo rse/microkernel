@@ -57,7 +57,7 @@ export default class MicrokernelManifest {
             throw new Error("invalid module (no \"module\" object property)")
         if (typeof mod.module.name !== "string")
             throw new Error("invalid module (no \"module.name\" string property)")
-        if (this.mod.has(mod.module.name))
+        if (this.name2mod.has(mod.module.name))
             throw new Error(`module of name ${mod.module.name} already added`)
 
         /*  take module into our management  */
