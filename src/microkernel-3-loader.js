@@ -30,17 +30,19 @@ export default class MicrokernelLoader {
         (and hence execute them with the microkernel as context)  */
     exec (...files) {
         return new Promise((resolve, reject) => {
-            let seq = new Promise.resolve()
+            let seq = Promise.resolve()
             files.forEach((file) => {
                 let filesExpanded = file.match(/[*?]/) !== null ? glob.sync(file) : [ file ]
                 if (filesExpanded.length === 0)
                     throw new Error("no files found")
                 filesExpanded.forEach((file) => {
                     let mod = require(file)
+                    if (typeof mod !== "function")
+                        throw new Error("file has not exported a function")
                     seq = seq.then(() => mod(this))
                 })
             })
-            seq.then(() => resolve())
+            seq.then(() => resolve(), (err) => reject(err))
         })
     }
 
