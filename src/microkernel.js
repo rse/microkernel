@@ -30,13 +30,13 @@ import Loader      from "./microkernel-3-loader"
 import State       from "./microkernel-4-state"
 import Hook        from "./microkernel-5-hook"
 import Event       from "./microkernel-6-event"
-import Resource    from "./microkernel-7-resource"
-import Service     from "./microkernel-8-service"
+import Service     from "./microkernel-7-service"
+import Resource    from "./microkernel-8-resource"
 
 /*  the API class  */
 export default class Microkernel extends
     aggregation(Version, Manifest, Loader, State,
-                Hook, Event, Resource, Service) {
+                Hook, Event, Service, Resource) {
     /*  initialize the microkernel instance  */
     constructor () {
         super()

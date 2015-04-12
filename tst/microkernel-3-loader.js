@@ -26,12 +26,16 @@ var path = require("path")
 var Microkernel = require("../lib/microkernel.js")
 
 describe("Microkernel Library: Loader", function () {
-    it("exec() functionality", function () {
+    it("exec() functionality", function (done) {
         var mk = new Microkernel()
         expect(mk).to.respondTo("exec")
-        mk.exec(path.join(__dirname, "sample-exec*.js"))
-        expect(mk.exec1).to.be.equal(true)
-        expect(mk.exec2).to.be.equal(true)
+        mk.exec(path.join(__dirname, "sample-exec*.js")).then(function () {
+            expect(mk.exec1).to.be.equal(true)
+            expect(mk.exec2).to.be.equal(true)
+            done()
+        }, function (err) {
+            done(err)
+        })
     })
     it("load() functionality", function () {
         var mk = new Microkernel()

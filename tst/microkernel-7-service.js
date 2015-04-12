@@ -24,7 +24,7 @@
 
 var Microkernel = require("../lib/microkernel.js")
 
-describe("Microkernel Library: Resource", function () {
+describe("Microkernel Library: Service", function () {
     it("sv()/register()/unregister()/service() functionality", function () {
         var mk = new Microkernel()
         expect(mk).to.respondTo("sv")
