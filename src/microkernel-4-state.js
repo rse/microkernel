@@ -138,8 +138,10 @@ export default class MicrokernelState {
             throw new Error(`state: invalid new state: ${stateNew}`)
 
         /*  perform deferred topological sorting of modules  */
-        if (this.modOrder === null)
+        if (this.modOrder === null) {
             this.modOrder = topoSortModules(this.mod)
+            this.publish("microkernel:state:toposort", this.modOrder, this.mod)
+        }
 
         /*  create outer promise chain  */
         let promise = new Promise ((resolve, reject) => {
@@ -150,9 +152,22 @@ export default class MicrokernelState {
             /*  create inner promise chain  */
             let seq = Promise.resolve()
 
+            /*  publish internal event (for use by an application)  */
+            let publishEvent = (when, from, to) => {
+                seq = seq.then(() => {
+                    this.publish(
+                        `microkernel:state:transit:${when}`,
+                        states.num2state[from].state,
+                        states.num2state[to].state
+                    )
+                })
+            }
+
             /*  helper function for transitioning  */
             let transit = (stateFrom, stateTo, methodType, reverse, step) => {
                 while (stateFrom !== stateTo) {
+                    publishEvent("before", stateFrom, stateFrom + step)
+
                     /*  determine method to call  */
                     let methodName = states.num2state[
                         methodType === "enter" ? stateFrom + 1 : stateFrom
@@ -173,6 +188,8 @@ export default class MicrokernelState {
                     /*  go to new state  */
                     stateFrom += step;
                     this._state = states.num2state[stateFrom].state
+
+                    publishEvent("after", stateFrom - step, stateFrom)
                 }
             }
 

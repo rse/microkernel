@@ -70,6 +70,9 @@ export default class MicrokernelManifest {
         else if (mod.kernel === null)
             mod.kernel = this
 
+        /*  publish an internal event (for use by an application)  */
+        this.publish("microkernel:add", mod)
+
         return this
     }
 
@@ -99,6 +102,9 @@ export default class MicrokernelManifest {
         /*  sanity check module  */
         if (!this.mod.has(mod))
             throw new Error("module not found")
+
+        /*  publish an internal event (for use by an application)  */
+        this.publish("microkernel:del", mod)
 
         /*  optionally remove link back to us  */
         if (typeof mod.kernel === "function")
