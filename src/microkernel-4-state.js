@@ -105,7 +105,7 @@ var topoSortModules = (mods) => {
     })
 
     /*  perform a topological sorting  */
-    return toposort.array(nodes, edges)
+    return toposort.array(nodes, edges).reverse()
 }
 
 /*  the mixin class  */
