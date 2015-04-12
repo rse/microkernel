@@ -1,38 +1,4 @@
 
-Microkernel
-===========
-
-Microkernel for Server Applications
-
-<p/>
-<img src="https://nodei.co/npm/microkernel.png?downloads=true&stars=true" alt=""/>
-
-<p/>
-<img src="https://david-dm.org/rse/microkernel.png" alt=""/>
-
-About
------
-
-Microkernel is JavaScript library, for use in
-[node.js](http://nodejs.org/)/[io.js](http://iojs.org/) environments,
-to structure and manage server applications with the help of modules, a
-stateful life-cycle, hooks, events, resources and services.
-
-Installation
-------------
-
-```shell
-$ npm install microkernel
-```
-
-Application Programming Interface (API)
----------------------------------------
-
-FIXME
-
-License
--------
-
 Copyright (c) 2015 Ralf S. Engelschall (http://engelschall.com/)
 
 Permission is hereby granted, free of charge, to any person obtaining
