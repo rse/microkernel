@@ -1,6 +1,6 @@
 {
     "name":        "microkernel",
-    "version":     "0.0.0",
+    "version":     "0.9.0",
     "description": "Microkernel for Server Applications",
     "keywords":    [ "micro", "kernel", "server" ],
     "main":        "lib/microkernel.js",
