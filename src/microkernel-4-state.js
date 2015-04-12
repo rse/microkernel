@@ -166,17 +166,18 @@ export default class MicrokernelState {
 
             /*  helper function for transitioning  */
             let transit = (stateFrom, stateTo, methodType, reverse, step) => {
+                /*  determine modules to call (in expected order)  */
+                let names = this.modOrder
+                if (reverse)
+                   names = names.reverse()
+
+                /*  loop until state is reached  */
                 while (stateFrom !== stateTo) {
                     /*  determine method to call  */
                     let methodName = states.num2state[
                         methodType === "enter" ? stateFrom + 1 : stateFrom
                     ][methodType]
                     publishEvent("before", stateFrom, stateFrom + step, methodName)
-
-                    /*  determine modules to call (in expected order)  */
-                    let names = this.modOrder
-                    if (reverse)
-                       names = names.reverse()
 
                     /*  call method on all modules  */
                     names.forEach((name) => {
