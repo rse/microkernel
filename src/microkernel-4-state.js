@@ -153,12 +153,13 @@ export default class MicrokernelState {
             let seq = Promise.resolve()
 
             /*  publish internal event (for use by an application)  */
-            let publishEvent = (when, from, to) => {
+            let publishEvent = (when, from, to, method) => {
                 seq = seq.then(() => {
                     this.publish(
                         `microkernel:state:transit:${when}`,
                         states.num2state[from].state,
-                        states.num2state[to].state
+                        states.num2state[to].state,
+                        method
                     )
                 })
             }
@@ -166,12 +167,11 @@ export default class MicrokernelState {
             /*  helper function for transitioning  */
             let transit = (stateFrom, stateTo, methodType, reverse, step) => {
                 while (stateFrom !== stateTo) {
-                    publishEvent("before", stateFrom, stateFrom + step)
-
                     /*  determine method to call  */
                     let methodName = states.num2state[
                         methodType === "enter" ? stateFrom + 1 : stateFrom
                     ][methodType]
+                    publishEvent("before", stateFrom, stateFrom + step, methodName)
 
                     /*  determine modules to call (in expected order)  */
                     let names = this.modOrder
@@ -188,8 +188,7 @@ export default class MicrokernelState {
                     /*  go to new state  */
                     stateFrom += step;
                     this._state = states.num2state[stateFrom].state
-
-                    publishEvent("after", stateFrom - step, stateFrom)
+                    publishEvent("after", stateFrom - step, stateFrom, methodName)
                 }
             }
 
