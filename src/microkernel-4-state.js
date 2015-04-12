@@ -45,6 +45,13 @@ var topoSortModules = (mods) => {
     let DAG = {}
     let TAG = {}
 
+    /*  determine all nodes  */
+    let nodes = {}
+    mods.forEach((mod) => {
+        let name  = mod.module.name
+        nodes[name] = true
+    })
+
     /*  helper function for taking zero or more strings out of a field  */
     let takeField = (field) => {
         if (typeof field === "object" && field instanceof Array)
@@ -61,6 +68,10 @@ var topoSortModules = (mods) => {
             let mods = TAG[mod] !== undefined ? TAG[mod] : [ mod ]
             mods.forEach((mod) => {
                 let [ before, after ] = order(mod)
+                if (nodes[before] === undefined)
+                    throw new Error(`unknown module: ${before}`)
+                if (nodes[after] === undefined)
+                    throw new Error(`unknown module: ${after}`)
                 if (DAG[before] === undefined)
                     DAG[before] = {}
                 DAG[before][after] = true
@@ -69,16 +80,12 @@ var topoSortModules = (mods) => {
     }
 
     /*  iterate over all modules  */
-    let nodes = []
     mods.forEach((mod) => {
         /*  take information of module  */
         let name   = mod.module.name
         let tag    = takeField(mod.module.tag)
         let before = takeField(mod.module.before)
         let after  = takeField(mod.module.after)
-
-        /*  remember module name  */
-        nodes.push(name)
 
         /*  remember mapping of tag to module  */
         tag.forEach((tag) => {
@@ -87,7 +94,7 @@ var topoSortModules = (mods) => {
             TAG[tag].push(name)
         })
 
-        /*  insert all "after"  dependencies into DAG
+        /*  insert all "after" dependencies into DAG
             (as standard "after" dependencies)  */
         insertDAG(after,  (mod) => [ name, mod ])
 
@@ -105,7 +112,7 @@ var topoSortModules = (mods) => {
     })
 
     /*  perform a topological sorting  */
-    return toposort.array(nodes, edges).reverse()
+    return toposort.array(Object.keys(nodes), edges).reverse()
 }
 
 /*  the mixin class  */
