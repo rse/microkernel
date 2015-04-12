@@ -29,16 +29,19 @@ export default class MicrokernelLoader {
     /*  load source files as a procedure
         (and hence execute them with the microkernel as context)  */
     exec (...files) {
-        files.forEach((file) => {
-            let filesExpanded = file.match(/[*?]/) !== null ? glob.sync(file) : [ file ]
-            if (filesExpanded.length === 0)
-                throw new Error("no files found")
-            filesExpanded.forEach((file) => {
-                let mod = require(file)
-                mod(this)
+        return new Promise((resolve, reject) => {
+            let seq = new Promise.resolve()
+            files.forEach((file) => {
+                let filesExpanded = file.match(/[*?]/) !== null ? glob.sync(file) : [ file ]
+                if (filesExpanded.length === 0)
+                    throw new Error("no files found")
+                filesExpanded.forEach((file) => {
+                    let mod = require(file)
+                    seq = seq.then(() => mod(this))
+                })
             })
+            seq.then(() => resolve())
         })
-        return this
     }
 
     /*  load source files as module definition
