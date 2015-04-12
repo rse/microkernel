@@ -99,7 +99,7 @@ var topoSortModules = (mods) => {
     /*  determine resulting graph edges  */
     let edges = []
     Object.keys(DAG).forEach((before) => {
-        DAG[before].forEach((after) => {
+        Object.keys(DAG[before]).forEach((after) => {
             edges.push([ before, after ])
         })
     })
