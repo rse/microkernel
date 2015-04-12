@@ -28,7 +28,7 @@ $ npm install microkernel
 Application Programming Interface (API)
 ---------------------------------------
 
-FIXME
+See the [TypeScript Definition](./src/microkernel.d.ts) for details.
 
 License
 -------
