@@ -46,6 +46,7 @@ export default class MicrokernelService {
 
         /*  store registration  */
         this._registration[name] = { cb: cb, ctx: ctx }
+        return this
     }
 
     /*  unregister service  */
@@ -60,6 +61,7 @@ export default class MicrokernelService {
 
         /*  remove registration  */
         delete this._registration[name]
+        return this
     }
 
     /*  call service  */

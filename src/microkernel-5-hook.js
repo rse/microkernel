@@ -90,6 +90,8 @@ export default class MicrokernelHook {
 
         /*  remove callback from hook callback registry  */
         this._hooks[name] = this._hooks[name].splice(k, 1)
+
+        return this
     }
 
     /*  provide hook  */
