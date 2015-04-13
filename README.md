@@ -25,6 +25,66 @@ Installation
 $ npm install microkernel
 ```
 
+Basic Concepts
+--------------
+
+The microkernel design follows the following primary concepts.
+
+### State Transitions
+
+There are 5 states the microkernel can be in. For transitioning between
+states the microkernel calls the enter (or leave) transition method, in
+(reverse) order after a topological sort, on all modules providing them.
+
+```txt
+      +---[boot]--+   +[configure]+  +-[prepare]-+  +---[start]--+
+      |           |   |           |  |           |  |            |
+      |           V   |           V  |           V  |            V
++----------+   +----------+   +----------+   +----------+   +----------+
+|          |   |          |   |          |   |          |   |          |
+| dead     |   | booted   |   |configured|   | prepared |   | running  |
+|          |   |          |   |          |   |          |   |          |
++----------+   +----------+   +----------+   +----------+   +----------+
+      ^           |   ^           |  ^           |  ^            |
+      |           |   |           |  |           |  |            |
+      +-[shutdown]+   +--[reset]--+  +-[release]-+  +---[stop]---+
+```
+
+### Module Groups
+
+Modules can be assigned to a group. Belonging to a group "X" is the same
+as tagging the module with "X" and having an "after" dependency to the
+group preceeding "X" (if there is one) plus a "before" dependency to the
+group following "X" (if there is one).
+
+```txt
++--------+  +--------+  +--------+  +--------+  +--------+  +--------+
+|         \ |         \ |         \ |         \ |         \ |         \
+| HOOK     \| SETUP    \| BOOT     \| BASE     \| RESOURCE \| SERVICE  \
+|          /|          /|          /|          /|          /|          /
+|         / |         / |         / |         / |         / |         /
++--------+  +--------+  +--------+  +--------+  +--------+  +--------+
+```
+
+### Module Dependencies
+
+Modules can have "after" and/or "before" dependencies to other modules
+(or groups or tags).
+
+```txt
+     +---[before]--+
+     |             |
+     |             V
++----------+   +----------+
+|          |   |          |
+| Module 1 |   | Module 2 |
+|          |   |          |
++----------+   +----------+
+     ^             |
+     |             |
+     +---[after]---+
+```
+
 Application Programming Interface (API)
 ---------------------------------------
 
