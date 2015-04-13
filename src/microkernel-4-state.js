@@ -43,9 +43,11 @@ states.num2state.forEach((state) => {
 
 /*  internal: topolocical sorting of modules  */
 var topoSortModules = (mods) => {
-    let DAG = {}
-    let TAG = {}
-    let GRP = {}
+    let DAG    = {}
+    let TAG    = {}
+    let GRP    = {}
+    let BEFORE = {}
+    let AFTER  = {}
 
     /*  determine all nodes  */
     let nodes = {}
@@ -57,7 +59,7 @@ var topoSortModules = (mods) => {
     /*  helper function for taking zero or more strings out of a field  */
     let takeField = (field) => {
         if (typeof field === "object" && field instanceof Array)
-            return [].concat(field)
+            return field
         else if (typeof field === "string")
             return [ field ]
         else
@@ -67,12 +69,13 @@ var topoSortModules = (mods) => {
     /*  helper function: insert edge into DAG  */
     let insertDAG = (list, order) => {
         list.forEach((mod) => {
+            let mods
             if (TAG[mod] !== undefined)
-                mod = TAG[mod]
+                mods = TAG[mod]
             else if (GRP[mod] !== undefined)
-                mod = GRP[mod]
+                mods = GRP[mod]
             else
-                mod = [ mod ]
+                mods = [ mod ]
             mods.forEach((mod) => {
                 let [ before, after ] = order(mod)
                 if (nodes[before] === undefined)
@@ -86,7 +89,7 @@ var topoSortModules = (mods) => {
         })
     }
 
-    /*  iterate over all modules  */
+    /*  pass 1: iterate over all modules and pre-process information  */
     mods.forEach((mod) => {
         /*  take information of module  */
         let name   = mod.module.name
@@ -94,6 +97,10 @@ var topoSortModules = (mods) => {
         let before = takeField(mod.module.before)
         let after  = takeField(mod.module.after)
         let group  = mod.module.group
+
+        /*  remember (a mutable copy of) after/before information  */
+        BEFORE[name] = [].concat(before)
+        AFTER[name]  = [].concat(after)
 
         /*  remember mapping of tag to module  */
         tag.forEach((tag) => {
@@ -113,11 +120,19 @@ var topoSortModules = (mods) => {
             if (GRP[group] === undefined)
                 GRP[group] = []
             GRP[group].push(name)
-            if (idx > 0)
-                after.push(states.groups[idx - 1])
             if (idx < states.groups.length - 1)
-                before.push(states.groups[idx + 1])
+                BEFORE[name].push(states.groups[idx + 1])
+            if (idx > 0)
+                AFTER[name].push(states.groups[idx - 1])
         }
+    })
+
+    /*  pass 2: iterate over all modules and process "after" and "before" information  */
+    mods.forEach((mod) => {
+        /*  take information of module  */
+        let name   = mod.module.name
+        let before = BEFORE[name]
+        let after  = AFTER[name]
 
         /*  insert all "after" dependencies into DAG
             (as standard "after" dependencies)  */
