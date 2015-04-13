@@ -33,6 +33,7 @@ var states = {
         { state: "prepared",   enter: "prepare",   leave: "release"  },
         { state: "running",    enter: "start",     leave: "stop"     }
     ],
+    groups: [ "HOOK", "SETUP", "BOOT", "BASE", "RESOURCE", "SERVICE" ],
     state2num: {}
 }
 var i = 0
@@ -44,6 +45,7 @@ states.num2state.forEach((state) => {
 var topoSortModules = (mods) => {
     let DAG = {}
     let TAG = {}
+    let GRP = {}
 
     /*  determine all nodes  */
     let nodes = {}
@@ -55,7 +57,7 @@ var topoSortModules = (mods) => {
     /*  helper function for taking zero or more strings out of a field  */
     let takeField = (field) => {
         if (typeof field === "object" && field instanceof Array)
-            return field
+            return [].concat(field)
         else if (typeof field === "string")
             return [ field ]
         else
@@ -65,7 +67,12 @@ var topoSortModules = (mods) => {
     /*  helper function: insert edge into DAG  */
     let insertDAG = (list, order) => {
         list.forEach((mod) => {
-            let mods = TAG[mod] !== undefined ? TAG[mod] : [ mod ]
+            if (TAG[mod] !== undefined)
+                mod = TAG[mod]
+            else if (GRP[mod] !== undefined)
+                mod = GRP[mod]
+            else
+                mod = [ mod ]
             mods.forEach((mod) => {
                 let [ before, after ] = order(mod)
                 if (nodes[before] === undefined)
@@ -86,13 +93,31 @@ var topoSortModules = (mods) => {
         let tag    = takeField(mod.module.tag)
         let before = takeField(mod.module.before)
         let after  = takeField(mod.module.after)
+        let group  = mod.module.group
 
         /*  remember mapping of tag to module  */
         tag.forEach((tag) => {
+            let idx = states.groups.indexOf(tag)
+            if (idx > -1)
+                throw new Error(`invalid tag (cannot be same as pre-defined group): ${tag}`)
             if (TAG[tag] === undefined)
                 TAG[tag] = []
             TAG[tag].push(name)
         })
+
+        /*  remember group of module  */
+        if (group !== undefined) {
+            let idx = states.groups.indexOf(group)
+            if (idx === -1)
+                throw new Error(`invalid group: ${group}`)
+            if (GRP[group] === undefined)
+                GRP[group] = []
+            GRP[group].push(name)
+            if (idx > 0)
+                after.push(states.groups[idx - 1])
+            if (idx < states.groups.length - 1)
+                before.push(states.groups[idx + 1])
+        }
 
         /*  insert all "after" dependencies into DAG
             (as standard "after" dependencies)  */
