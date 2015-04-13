@@ -89,6 +89,20 @@ declare module Microkernel {
             "ModuleClass". It is instanciated and added to the kernel.  */
         load(...files: string[]): Kernel;
 
+        /*  configure the state transitions  */
+        configureStateTransitions(
+            transitions: {
+                state: string;
+                enter: string;
+                leave: string;
+            }[]
+        ): Kernel;
+
+        /*  configure the module groups  */
+        configureModuleGroups(
+            groups: string[]
+        ): Kernel;
+
         /*  Retrieve the current state or trigger a transition to a new
             state. There are 4+1 states and their corresponding enter (from
             lower to higher) or leave (from higher to lower) method names:

@@ -26,20 +26,10 @@ import toposort from "toposort"
 
 /*  definition of states  */
 var states = {
-    num2state: [
-        { state: "dead",       enter: null,        leave: null       },
-        { state: "booted",     enter: "boot",      leave: "shutdown" },
-        { state: "configured", enter: "configure", leave: "reset"    },
-        { state: "prepared",   enter: "prepare",   leave: "release"  },
-        { state: "running",    enter: "start",     leave: "stop"     }
-    ],
-    groups: [ "HOOK", "SETUP", "BOOT", "BASE", "RESOURCE", "SERVICE" ],
-    state2num: {}
+    num2state: [],
+    state2num: {},
+    groups:    []
 }
-var i = 0
-states.num2state.forEach((state) => {
-    states.state2num[state.state] = i++
-})
 
 /*  internal: topolocical sorting of modules  */
 var topoSortModules = (mods) => {
@@ -160,6 +150,32 @@ export default class MicrokernelState {
     /*  initialize the microkernel instance  */
     initializer () {
         this._state = "dead"
+        this.configureStateTransitions([
+            { state: "dead",       enter: null,        leave: null       },
+            { state: "booted",     enter: "boot",      leave: "shutdown" },
+            { state: "configured", enter: "configure", leave: "reset"    },
+            { state: "prepared",   enter: "prepare",   leave: "release"  },
+            { state: "running",    enter: "start",     leave: "stop"     }
+        ])
+        this.configureModuleGroups([
+            "HOOK", "SETUP", "BOOT", "BASE", "RESOURCE", "IDENT", "SERVICE"
+        ])
+    }
+
+    /*  (re)configure state transitions  */
+    configureStateTransitions (transitions) {
+        states.num2state = transitions
+        let i = 0
+        transitions.forEach((state) => {
+            states.state2num[state.state] = i++
+        })
+        return this
+    }
+
+    /*  (re)configure module groups  */
+    configureModuleGroups (groups) {
+        states.groups = groups
+        return this
     }
 
     /*  retrieve current state or request transition to new state  */
