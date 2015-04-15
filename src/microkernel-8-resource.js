@@ -38,10 +38,9 @@ export default class MicrokernelResource {
     resource (key, value) {
         if (arguments.length > 2)
             throw new Error("resource: invalid number of arguments")
-        let valueOld = this._resource[key]
         if (arguments.length === 2)
             this._resource[key] = value
-        return valueOld
+        return this._resource[key]
     }
 }
 
