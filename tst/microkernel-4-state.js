@@ -33,22 +33,22 @@ describe("Microkernel Library: State", function () {
         mk.load(path.join(__dirname, "sample-load2.js"))
 
         expect(mk.state()).to.be.equal("dead")
-        mk.state("running").then(function (state) {
-        	expect(state).to.be.equal("running")
+        mk.state("started").then(function (state) {
+            expect(state).to.be.equal("started")
             mk.state("dead").then(function (state) {
-             	expect(state).to.be.equal("dead")
-             	expect(mk.get("load1").log()).to.be.deep.equal([
-             	    "boot", "configure", "prepare", "start",
-                    "stop", "release", "reset", "shutdown"
+                expect(state).to.be.equal("dead")
+                expect(mk.get("load1").log()).to.be.deep.equal([
+                    "boot", "latch", "configure", "prepare", "start",
+                    "stop", "release", "reset", "unlatch", "shutdown"
                 ])
-             	done()
+                done()
             }, function (err) {
-            	console.log("ERROR:", err)
-        	    done(err)
+                console.log("ERROR:", err)
+                done(err)
             })
         }, function (err) {
-        	console.log("ERROR:", err)
-        	done(err)
+            console.log("ERROR:", err)
+            done(err)
         })
     })
 })

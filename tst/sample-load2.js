@@ -20,12 +20,14 @@ mod.prototype = {
 	        mk.load2 = true
     },
     boot:      function () { this.log("boot") },
+    latch:     function () { this.log("latch") },
     configure: function () { this.log("configure") },
     prepare:   function () { this.log("prepare") },
     start:     function () { this.log("start") },
     stop:      function () { this.log("stop") },
     release:   function () { this.log("release") },
     reset:     function () { this.log("reset") },
+    unlatch:   function () { this.log("unlatch") },
     shutdown:  function () { this.log("shutdown") }
 }
 module.exports = mod

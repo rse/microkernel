@@ -32,21 +32,21 @@ export default class MicrokernelState {
         this._num2state = []
         this._state2num = {}
         this._groups = []
-        this.configureStateTransitions([
+        this.transitions([
             { state: "dead",       enter: null,        leave: null       },
             { state: "booted",     enter: "boot",      leave: "shutdown" },
-            { state: "latched",    enter: "latch",     leave: "unlatch" },
+            { state: "latched",    enter: "latch",     leave: "unlatch"  },
             { state: "configured", enter: "configure", leave: "reset"    },
             { state: "prepared",   enter: "prepare",   leave: "release"  },
             { state: "started",    enter: "start",     leave: "stop"     }
         ])
-        this.configureModuleGroups([
+        this.groups([
             "BOOT", "BASE", "RESOURCE", "SERVICE", "IDENT", "USECASE"
         ])
     }
 
     /*  (re)configure state transitions  */
-    configureStateTransitions (transitions) {
+    transitions (transitions) {
         this._num2state = transitions
         let i = 0
         transitions.forEach((state) => {
@@ -56,7 +56,7 @@ export default class MicrokernelState {
     }
 
     /*  (re)configure module groups  */
-    configureModuleGroups (groups) {
+    groups (groups) {
         this._groups = groups
         return this
     }

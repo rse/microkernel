@@ -90,7 +90,7 @@ declare module Microkernel {
         load(...files: string[]): Kernel;
 
         /*  configure the state transitions  */
-        configureStateTransitions(
+        transitions(
             transitions: {
                 state: string;
                 enter: string;
@@ -99,7 +99,7 @@ declare module Microkernel {
         ): Kernel;
 
         /*  configure the module groups  */
-        configureModuleGroups(
+        groups(
             groups: string[]
         ): Kernel;
 
@@ -111,19 +111,22 @@ declare module Microkernel {
                 ---------- --------- ---------
                 dead       (none)    (none)
                 booted     boot      shutdown
+                latched    latch     unlatch
                 configured configure reset
                 prepared   prepare   release
-                running    start     stop
+                started    start     stop
 
             One can trigger the kernel to go to arbitrary states.
             It will transiton through all intermediate states
             automatically. For instance, if there are two modules A and
             B and (B comes after A) and the kernel is in "dead" state,
-            then a kernel.state("running") will trigger the following
+            then a kernel.state("started") will trigger the following
             method calls (in exactly this order):
 
                 A.boot(kernel)
                 B.boot(kernel)
+                A.latch(kernel)
+                B.latch(kernel)
                 A.configure(kernel)
                 B.configure(kernel)
                 A.prepare(kernel)
@@ -140,8 +143,11 @@ declare module Microkernel {
                 A.release(kernel)
                 B.reset(kernel)
                 A.reset(kernel)
+                B.unlatch(kernel)
+                A.unlatch(kernel)
                 B.shutdown(kernel)
-                A.shutdown(kernel)  */
+                A.shutdown(kernel)
+        */
         state(newState?: string): string;
 
         /*  Latch into a named hook with the help of a callback function.
