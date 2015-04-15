@@ -37,17 +37,17 @@ states the microkernel calls the enter (or leave) transition method, in
 (reverse) order after a topological sort, on all modules providing them.
 
 ```txt
-      +---[boot]--+   +[configure]+  +-[prepare]-+  +---[start]--+
-      |           |   |           |  |           |  |            |
-      |           V   |           V  |           V  |            V
-+----------+   +----------+   +----------+   +----------+   +----------+
-|          |   |          |   |          |   |          |   |          |
-| dead     |   | booted   |   |configured|   | prepared |   | running  |
-|          |   |          |   |          |   |          |   |          |
-+----------+   +----------+   +----------+   +----------+   +----------+
-      ^           |   ^           |  ^           |  ^            |
-      |           |   |           |  |           |  |            |
-      +-[shutdown]+   +--[reset]--+  +-[release]-+  +---[stop]---+
+      +---[boot]--+   +-[latch]--+   +[configure]+  +-[prepare]-+  +---[start]--+
+      |           |   |          |   |           |  |           |  |            |
+      |           V   |          V   |           V  |           V  |            V
++----------+   +----------+   +----------+   +----------+   +----------+   +----------+
+|          |   |          |   |          |   |          |   |          |   |          |
+| dead     |   | booted   |   | latched  |   |configured|   | prepared |   | started  |
+|          |   |          |   |          |   |          |   |          |   |          |
++----------+   +----------+   +----------+   +----------+   +----------+   +----------+
+      ^           |   ^          |   ^           |  ^           |  ^            |
+      |           |   |          |   |           |  |           |  |            |
+      +-[shutdown]+   +-[unlatch]+   +--[reset]--+  +-[release]-+  +---[stop]---+
 ```
 
 ### Module Groups
@@ -58,12 +58,12 @@ group preceeding "X" (if there is one) plus a "before" dependency to the
 group following "X" (if there is one).
 
 ```txt
-+--------+  +--------+  +--------+  +--------+  +--------+  +--------+  +--------+
-|         \ |         \ |         \ |         \ |         \ |         \ |         \
-| HOOK     \| SETUP    \| BOOT     \| BASE     \| RESOURCE \| IDENT    \| SERVICE  \
-|          /|          /|          /|          /|          /|          /|          /
-|         / |         / |         / |         / |         / |         / |         /
-+--------+  +--------+  +--------+  +--------+  +--------+  +--------+  +--------+
++--------+  +--------+  +--------+  +--------+  +--------+  +--------+
+|         \ |         \ |         \ |         \ |         \ |         \
+| BOOT     \| BASE     \| RESOURCE \| SERVICE  \| IDENT    \| USECASE  \
+|          /|          /|          /|          /|          /|          /
+|         / |         / |         / |         / |         / |         /
++--------+  +--------+  +--------+  +--------+  +--------+  +--------+
 ```
 
 ### Module Dependencies

@@ -35,12 +35,13 @@ export default class MicrokernelState {
         this.configureStateTransitions([
             { state: "dead",       enter: null,        leave: null       },
             { state: "booted",     enter: "boot",      leave: "shutdown" },
+            { state: "latched",    enter: "latch",     leave: "unlatch" },
             { state: "configured", enter: "configure", leave: "reset"    },
             { state: "prepared",   enter: "prepare",   leave: "release"  },
-            { state: "running",    enter: "start",     leave: "stop"     }
+            { state: "started",    enter: "start",     leave: "stop"     }
         ])
         this.configureModuleGroups([
-            "HOOK", "SETUP", "BOOT", "BASE", "RESOURCE", "IDENT", "SERVICE"
+            "BOOT", "BASE", "RESOURCE", "SERVICE", "IDENT", "USECASE"
         ])
     }
 
@@ -159,15 +160,5 @@ export default class MicrokernelState {
 
         return promise
     }
-
-    /*  provide convenience methods for state transitions  */
-    boot ()      { return this.state("booted")     }
-    configure () { return this.state("configured") }
-    prepare ()   { return this.state("prepared")   }
-    start ()     { return this.state("running")    }
-    stop ()      { return this.state("prepared")   }
-    release ()   { return this.state("configured") }
-    reset ()     { return this.state("booted")     }
-    shutdown ()  { return this.state("dead")       }
 }
 
