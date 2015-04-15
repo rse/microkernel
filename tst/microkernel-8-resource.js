@@ -31,7 +31,7 @@ describe("Microkernel Library: Resource", function () {
         expect(mk).to.respondTo("resource")
 
         expect(mk.rs("foo")).to.be.equal(undefined)
-        expect(mk.rs("foo", 42)).to.be.equal(undefined)
+        expect(mk.rs("foo", 42)).to.be.equal(42)
         expect(mk.rs("foo")).to.be.equal(42)
     })
 })
