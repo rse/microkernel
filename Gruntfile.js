@@ -61,7 +61,7 @@ module.exports = function (grunt) {
                     ],
                     external: [
                         "glob",
-                        "toposort"
+                        "gdo"
                     ],
                     browserifyOptions: {
                         standalone: "Microkernel",
