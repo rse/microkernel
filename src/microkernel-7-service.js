@@ -40,19 +40,17 @@ export default class MicrokernelService {
         if (arguments.length < 2)
             throw new Error("register: missing arguments")
 
-        /*  sanity check situation  */
-        if (this._registration[name] !== undefined)
-            throw new Error(`register: service already registered: ${name}`)
-
         /*  store registration  */
-        this._registration[name] = { cb: cb, ctx: ctx }
+        if (this._registration[name] === undefined)
+            this._registration[name] = []
+        this._registration[name].push({ cb: cb, ctx: ctx })
         return this
     }
 
     /*  unregister service  */
     unregister (name) {
         /*  sanity check arguments  */
-        if (arguments.length !== 2)
+        if (arguments.length !== 1)
             throw new Error("unregister: invalid number of arguments")
 
         /*  sanity check situation  */
@@ -60,7 +58,9 @@ export default class MicrokernelService {
             throw new Error("unregister: no such registration")
 
         /*  remove registration  */
-        delete this._registration[name]
+        this._registration[name].pop()
+        if (this._registration[name].length === 0)
+            delete this._registration[name]
         return this
     }
 
@@ -68,14 +68,14 @@ export default class MicrokernelService {
     service (name, ...params) {
         /*  sanity check arguments  */
         if (arguments.length < 1)
-            throw new Error("call: missing argument")
+            throw new Error("service: missing argument")
 
         /*  sanity check situation  */
         if (this._registration[name] === undefined)
-            throw new Error(`call: no such service registered: ${name}`)
+            throw new Error(`service: no such service registered: ${name}`)
 
         /*  call registered function  */
-        let r = this._registration[name]
+        let r = this._registration[name][0]
         return r.cb.apply(r.ctx, params)
     }
 }
