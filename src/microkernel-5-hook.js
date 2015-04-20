@@ -24,6 +24,7 @@
 
 /*  internal hook processing  */
 var hook_proc = {
+    /* jscs: disable */
     "none":   { init: undefined,   step: (    ) => {}                        },
     "pass":   { init: (a) => a[0], step: (o, n) => n                         },
     "or":     { init: false,       step: (o, n) => o || n                    },
@@ -36,6 +37,7 @@ var hook_proc = {
     "set":    { init: {},          step: (o, n) => { o[n] = true; return o } },
     "insert": { init: new Set(),   step: (o, n) => o.add(n)                  },
     "assign": { init: {},          step: (o, n) => Object.assign(o, n)       }
+    /* jscs: enable */
 }
 
 /*  internal registration counter  */
@@ -100,7 +102,7 @@ export default class MicrokernelHook {
         if (arguments.length < 2)
             throw new Error("hook: missing argument")
         if (typeof hook_proc[proc] === "undefined")
-            throw new Error("hook: no such result processing defined");
+            throw new Error("hook: no such result processing defined")
 
         /*  start result with the initial value  */
         let result = hook_proc[proc].init
@@ -112,7 +114,7 @@ export default class MicrokernelHook {
         if (typeof this._hooks[name] !== "undefined") {
             this._hooks[name].forEach((l) => {
                 /*  call latched callback  */
-                let r = l.cb.call(l.ctx, ...params, result)
+                let r = l.cb.apply(l.ctx, params.concat([ result ]))
 
                 /*  process/merge results  */
                 result = hook_proc[proc].step.call(null, result, r)

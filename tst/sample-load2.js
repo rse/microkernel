@@ -2,22 +2,22 @@
 var mod = function () {
 }
 mod.prototype = {
-	module: {
-	    name: "load2"
-	},
-    log: function (msg)  {
-		if (this.logbook === undefined)
-			this.logbook = []
-		if (arguments.length === 0)
-			return this.logbook
-		else if (arguments.length === 1 && typeof msg === "string")
-			this.logbook.push(msg)
-		else
-			this.logbook = []
-	},
+    module: {
+        name: "load2"
+    },
+    log: function (msg) {
+        if (this.logbook === undefined)
+            this.logbook = []
+        if (arguments.length === 0)
+            return this.logbook
+        else if (arguments.length === 1 && typeof msg === "string")
+            this.logbook.push(msg)
+        else
+            this.logbook = []
+    },
     kernel: function (mk) {
-    	if (mk !== null)
-	        mk.load2 = true
+        if (mk !== null)
+            mk.load2 = true
     },
     boot:      function () { this.log("boot") },
     latch:     function () { this.log("latch") },

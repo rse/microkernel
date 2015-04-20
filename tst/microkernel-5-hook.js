@@ -47,31 +47,31 @@ describe("Microkernel Library: Hook", function () {
 
         /*  simple "pass" processing  */
         mk.at("bar", function (a, v) {
-        	return v + "2"
+            return v + "2"
         })
         mk.at("bar", function (a, v) {
-        	return v + "3"
+            return v + "3"
         })
         expect(mk.hook("bar", "pass", "1")).to.be.equal("123")
 
         /*  simple "or" processing  */
         mk.at("accessGranted", function (/* a, v */) {
-        	return false
+            return false
         })
         mk.at("accessGranted", function (/* a, v */) {
-        	return true
+            return true
         })
         expect(mk.hook("accessGranted", "and", true)).to.be.equal(false)
 
         /*  simple "assign" processing  */
         mk.at("config", function (/* a, v */) {
-        	return { foo: 1, bar: 2 }
+            return { foo: 1, bar: 2 }
         })
         mk.at("config", function (/* a, v */) {
-        	return { baz: 3, quux: 4 }
+            return { baz: 3, quux: 4 }
         })
         expect(mk.hook("config", "assign", {})).to.be.deep.equal({
-            foo: 1, bar: 2, baz: 3, quux: 4	
+            foo: 1, bar: 2, baz: 3, quux: 4
         })
     })
 })

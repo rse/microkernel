@@ -33,12 +33,12 @@ export default class MicrokernelState {
         this._state2num = {}
         this._groups = []
         this.transitions([
-            { state: "dead",       enter: null,        leave: null       },
+            { state: "dead",       enter: null,        leave: null },
             { state: "booted",     enter: "boot",      leave: "shutdown" },
-            { state: "latched",    enter: "latch",     leave: "unlatch"  },
-            { state: "configured", enter: "configure", leave: "reset"    },
-            { state: "prepared",   enter: "prepare",   leave: "release"  },
-            { state: "started",    enter: "start",     leave: "stop"     }
+            { state: "latched",    enter: "latch",     leave: "unlatch" },
+            { state: "configured", enter: "configure", leave: "reset" },
+            { state: "prepared",   enter: "prepare",   leave: "release" },
+            { state: "started",    enter: "start",     leave: "stop" }
         ])
         this.groups([
             "BOOT", "BASE", "RESOURCE", "SERVICE", "IDENT", "USECASE"
@@ -131,7 +131,7 @@ export default class MicrokernelState {
                     })
 
                     /*  go to new state  */
-                    stateFrom += step;
+                    stateFrom += step
                     this._state = this._num2state[stateFrom].state
                     publishEvent("after", stateFrom - step, stateFrom, methodName)
                 }

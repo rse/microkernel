@@ -33,10 +33,10 @@ describe("Microkernel Library: Service", function () {
         expect(mk).to.respondTo("service")
 
         mk.register("foo", function (a1, a2) {
-        	expect(a1).to.be.equal(7)
+            expect(a1).to.be.equal(7)
             expect(a2).to.be.equal(true)
             expect(this).to.be.deep.equal([ 42 ])
-        	return "foo"
+            return "foo"
         }, [ 42 ])
         mk.register("bar", function (a1, a2) {
             expect(a1).to.be.equal(7)
