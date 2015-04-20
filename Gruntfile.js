@@ -29,6 +29,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks("grunt-contrib-watch");
     grunt.loadNpmTasks("grunt-browserify");
     grunt.loadNpmTasks("grunt-mocha-test");
+    grunt.loadNpmTasks("grunt-jscs");
 
     grunt.initConfig({
         version: grunt.file.readYAML("VERSION.yml"),
@@ -38,6 +39,17 @@ module.exports = function (grunt) {
             },
             "gruntfile":  [ "Gruntfile.js" ],
             "microkernel": [ "src/**/*.js", "tst/**/*.js" ]
+        },
+        jscs: {
+            "microkernel": {
+                options: {
+                    config: "jscs.json",
+                    esnext: true
+                },
+                files: {
+                    src: [ "src/**/*.js", "tst/**/*.js" ]
+                }
+            }
         },
         browserify: {
             "microkernel": {
@@ -92,7 +104,7 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask("default", [ "jshint", "browserify", "mochaTest" ]);
+    grunt.registerTask("default", [ "jshint", "jscs", "browserify", "mochaTest" ]);
     grunt.registerTask("test", [ "mochaTest" ]);
     grunt.registerTask("dev", [ "default", "watch" ]);
 };
