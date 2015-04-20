@@ -35,9 +35,9 @@ export default class MicrokernelLoader {
                 let filesExpanded = file.match(/[*?]/) !== null ? glob.sync(file) : [ file ]
                 if (filesExpanded.length === 0)
                     throw new Error("no files found")
-                filesExpanded.forEach((file) => {
-                    this.publish("microkernel:exec", file)
-                    let mod = require(file)
+                filesExpanded.forEach((fileExpanded) => {
+                    this.publish("microkernel:exec", fileExpanded)
+                    let mod = require(fileExpanded)
                     if (typeof mod !== "function")
                         throw new Error("file has not exported a function")
                     seq = seq.then(() => mod(this))
@@ -52,9 +52,9 @@ export default class MicrokernelLoader {
     load (...files) {
         files.forEach((file) => {
             let filesExpanded = file.match(/[*?]/) !== null ? glob.sync(file) : [ file ]
-            filesExpanded.forEach((file) => {
-                this.publish("microkernel:load", file)
-                let mod = require(file)
+            filesExpanded.forEach((fileExpanded) => {
+                this.publish("microkernel:load", fileExpanded)
+                let mod = require(fileExpanded)
                 this.add(new mod())
             })
         })

@@ -23,7 +23,7 @@
 */
 
 /*  internal hook processing  */
-var hook_proc = {
+var hookProc = {
     /* jscs: disable */
     "none":   { init: undefined,   step: (    ) => {}                        },
     "pass":   { init: (a) => a[0], step: (o, n) => n                         },
@@ -101,11 +101,11 @@ export default class MicrokernelHook {
         /*  sanity check arguments  */
         if (arguments.length < 2)
             throw new Error("hook: missing argument")
-        if (typeof hook_proc[proc] === "undefined")
+        if (typeof hookProc[proc] === "undefined")
             throw new Error("hook: no such result processing defined")
 
         /*  start result with the initial value  */
-        let result = hook_proc[proc].init
+        let result = hookProc[proc].init
         if (typeof result === "function")
             result = result.call(null, params)
 
@@ -117,7 +117,7 @@ export default class MicrokernelHook {
                 let r = l.cb.apply(l.ctx, params.concat([ result ]))
 
                 /*  process/merge results  */
-                result = hook_proc[proc].step.call(null, result, r)
+                result = hookProc[proc].step.call(null, result, r)
             })
         }
 

@@ -86,8 +86,8 @@ export default class MicrokernelManifest {
         let mod
         if (typeof arg === "function") {
             /*  delete all instances of a class  */
-            this.cls2mod.get(arg).forEach((mod) => {
-                this.del(mod)
+            this.cls2mod.get(arg).forEach((module) => {
+                this.del(module)
             })
             this.cls2mod.delete(arg)
             return this

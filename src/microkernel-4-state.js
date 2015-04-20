@@ -88,7 +88,7 @@ export default class MicrokernelState {
         }
 
         /*  create outer promise chain  */
-        let promise = new Promise ((resolve, reject) => {
+        let promise = new Promise((resolve, reject) => {
             /*  determine indexes of states  */
             let stateOldIdx = this._state2num[stateOld]
             let stateNewIdx = this._state2num[stateNew]
@@ -152,10 +152,10 @@ export default class MicrokernelState {
         })
 
         /*  reset module order in case we reached the dead state (again)  */
-        promise = promise.then((stateNew) => {
-            if (stateNew === "dead")
+        promise = promise.then((state) => {
+            if (state === "dead")
                 this._modOrder = null
-            return stateNew
+            return state
         })
 
         return promise

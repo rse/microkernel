@@ -35,19 +35,17 @@ describe("Microkernel Library: State", function () {
         expect(mk.state()).to.be.equal("dead")
         mk.state("started").then(function (state) {
             expect(state).to.be.equal("started")
-            mk.state("dead").then(function (state) {
-                expect(state).to.be.equal("dead")
+            mk.state("dead").then(function (state2) {
+                expect(state2).to.be.equal("dead")
                 expect(mk.get("load1").log()).to.be.deep.equal([
                     "boot", "latch", "configure", "prepare", "start",
                     "stop", "release", "reset", "unlatch", "shutdown"
                 ])
                 done()
             }, function (err) {
-                console.log("ERROR:", err)
                 done(err)
             })
         }, function (err) {
-            console.log("ERROR:", err)
             done(err)
         })
     })

@@ -29,6 +29,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks("grunt-contrib-watch");
     grunt.loadNpmTasks("grunt-browserify");
     grunt.loadNpmTasks("grunt-mocha-test");
+    grunt.loadNpmTasks("grunt-eslint");
     grunt.loadNpmTasks("grunt-jscs");
 
     grunt.initConfig({
@@ -38,6 +39,12 @@ module.exports = function (grunt) {
                 jshintrc: "jshint.json"
             },
             "gruntfile":  [ "Gruntfile.js" ],
+            "microkernel": [ "src/**/*.js", "tst/**/*.js" ]
+        },
+        eslint: {
+            options: {
+                config: "eslint.json"
+            },
             "microkernel": [ "src/**/*.js", "tst/**/*.js" ]
         },
         jscs: {
@@ -104,7 +111,7 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask("default", [ "jshint", "jscs", "browserify", "mochaTest" ]);
+    grunt.registerTask("default", [ "jshint", "eslint", "jscs", "browserify", "mochaTest" ]);
     grunt.registerTask("test", [ "mochaTest" ]);
     grunt.registerTask("dev", [ "default", "watch" ]);
 };
