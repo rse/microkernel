@@ -18,6 +18,7 @@
     "disallowYodaConditions": true,
     "maximumLineLength": 120,
     "requireBlocksOnNewline": 1,
+    "requireCamelCaseOrUpperCaseIdentifiers": true,
     "requireCommaBeforeLineBreak": true,
     "requireDotNotation": true,
     "requireKeywordsOnNewLine": [ "while", "for", "else" ],
@@ -31,7 +32,6 @@
     "requireSpaceBeforeKeywords": [ "while", "do", "try", "catch", "for", "if", "else" ],
     "requireSpaceBetweenArguments": true,
     "requireSpacesInAnonymousFunctionExpression": {
-        "beforeOpeningRoundBrace": true,
         "beforeOpeningCurlyBrace": true
     },
     "requireSpacesInConditionalExpression": {
