@@ -69,7 +69,7 @@ export default class MicrokernelEvent {
             throw new Error("unsubscribe: no such subscription")
 
         /*  remove subscription  */
-        this._subscription[name] = this._subscription[name].splice(k, 1)
+        this._subscription[name].splice(k, 1)
     }
 
     /*  publish event  */

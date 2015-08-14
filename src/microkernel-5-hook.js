@@ -91,7 +91,7 @@ export default class MicrokernelHook {
             throw new Error("unlatch: no such latched callback")
 
         /*  remove callback from hook callback registry  */
-        this._hooks[name] = this._hooks[name].splice(k, 1)
+        this._hooks[name].splice(k, 1)
 
         return this
     }
