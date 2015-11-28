@@ -1,6 +1,6 @@
 {
     "name":        "microkernel",
-    "version":     "0.9.19",
+    "version":     "0.9.20",
     "description": "Microkernel for Server Applications",
     "keywords": [
         "micro", "kernel", "server",
