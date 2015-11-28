@@ -71,7 +71,7 @@ module.exports = function (grunt) {
                             { from: /\$micro/g, to: "<%= version.micro %>" },
                             { from: /\$date/g,  to: "<%= version.date  %>" }
                         ]}],
-                        [ "babelify", { optional: [ "runtime" ] } ]
+                        [ "babelify", { presets: [ "es2015" ] } ]
                     ],
                     plugin: [
                         [ "minifyify", { map: "microkernel.map", output: "lib/microkernel.map" } ],

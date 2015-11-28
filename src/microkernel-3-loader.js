@@ -22,6 +22,7 @@
 **  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+import Promise from "core-js/library/es6/promise"
 import glob from "glob"
 
 /*  the mixin class  */

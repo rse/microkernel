@@ -22,6 +22,8 @@
 **  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+import Promise from "core-js/library/es6/promise"
+
 /*  internal registration counter  */
 var cnt = 0
 
