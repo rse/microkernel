@@ -34,7 +34,7 @@ import Service     from "./microkernel-7-service"
 import Resource    from "./microkernel-8-resource"
 
 /*  the API class  */
-export default class Microkernel extends
+class Microkernel extends
     aggregation(Version, Manifest, Loader, State,
                 Hook, Event, Service, Resource) {
     /*  initialize the microkernel instance  */
@@ -42,4 +42,8 @@ export default class Microkernel extends
         super()
     }
 }
+
+/*  export the traditional way for interoperability reasons
+    (as Babel would export an object with a 'default' field)  */
+module.exports = Microkernel
 
