@@ -14,7 +14,7 @@ About
 -----
 
 Microkernel is JavaScript library, for use in
-[node.js](http://nodejs.org/)/[io.js](http://iojs.org/) environments,
+[Node.js](http://nodejs.org/) environments,
 to structure and manage server applications with the help of modules, a
 stateful life-cycle, hooks, events, services and resources.
 
