@@ -33,8 +33,9 @@ The microkernel design follows the following primary concepts.
 ### State Transitions
 
 There are states the microkernel can be in. For transitioning between
-states the microkernel calls the enter (or leave) transition method, in
-(reverse) order after a topological sort, on all modules providing them.
+states the microkernel calls the optional enter (or leave) transition
+method, in (reverse) order after a topological sort, on all modules
+providing them.
 
 By default there are 6 states defined:
 
@@ -88,6 +89,42 @@ Modules can have "after" and/or "before" dependencies to other modules
      ^             |
      |             |
      +---[after]---+
+```
+
+### Module Definitions
+
+A module under run-time is just an object with a control field `module`
+and zero or more enter/leave transition methods (see "State Transitions"
+above). In TypeScript notation, a module has to conform to the following
+interface (assuming the default transition configuration):
+
+```ts
+interface Module {
+    /*  mandatory module descriptor.
+        name:   unique name of module, by convention in all lower-case.
+        tag:    one or more tags, by convention in all upper-case, to associate the module with.
+        before: one or more modules the current module has to come before.
+        after:  one or more modules the current module has to come after.  */
+    module: {
+        name:    string;                  /*  e.g. "foo"  */
+        tag?:    string | Array<string>;  /*  e.g. "RESOURCE"  */
+        before?: string | Array<string>;  /*  e.g. [ "BOOT", "bar" ]  */
+        after?:  string | Array<string>;  /*  e.g. "quux"  */
+    };
+
+    /*  optional default enter/leave methods
+        kernel: backreference to the microkernel the module runs under  */
+    boot?:      (kernel: Kernel) => void;
+    latch?:     (kernel: Kernel) => void;
+    configure?: (kernel: Kernel) => void;
+    prepare?:   (kernel: Kernel) => void;
+    start?:     (kernel: Kernel) => void;
+    stop?:      (kernel: Kernel) => void;
+    release?:   (kernel: Kernel) => void;
+    reset?:     (kernel: Kernel) => void;
+    unlatch?:   (kernel: Kernel) => void;
+    shutdown?:  (kernel: Kernel) => void;
+}
 ```
 
 Application Programming Interface (API)
