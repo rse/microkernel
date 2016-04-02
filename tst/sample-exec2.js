@@ -1,5 +1,6 @@
 
 module.exports = function (mk) {
+    /* global Promise: true */
     return new Promise(function (resolve /*, reject */) {
         /* global setTimeout: true */
         setTimeout(function () {

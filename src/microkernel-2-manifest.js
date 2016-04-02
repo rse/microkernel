@@ -22,6 +22,9 @@
 **  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+import Map from "core-js/library/es6/map"
+import Set from "core-js/library/es6/set"
+
 /*  the mixin class  */
 export default class MicrokernelManifest {
     /*  initialize the mixin  */

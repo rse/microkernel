@@ -22,6 +22,8 @@
 **  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+import Set from "core-js/library/es6/set"
+
 /*  internal hook processing  */
 var hookProc = {
     /* jscs: disable */
