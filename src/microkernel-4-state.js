@@ -23,7 +23,7 @@
 */
 
 import Promise from "core-js/library/es6/promise"
-import GDO from "gdo"
+import GDO     from "gdo"
 
 /*  the mixin class  */
 export default class MicrokernelState {

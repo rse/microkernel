@@ -23,7 +23,7 @@
 */
 
 import Promise from "core-js/library/es6/promise"
-import glob from "glob"
+import glob    from "glob"
 
 /*  the mixin class  */
 export default class MicrokernelLoader {
