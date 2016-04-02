@@ -32,9 +32,11 @@ The microkernel design follows the following primary concepts.
 
 ### State Transitions
 
-There are 5 states the microkernel can be in. For transitioning between
+There are states the microkernel can be in. For transitioning between
 states the microkernel calls the enter (or leave) transition method, in
 (reverse) order after a topological sort, on all modules providing them.
+
+By default there are 6 states defined:
 
 ```txt
       +---[boot]--+   +-[latch]--+   +[configure]+  +-[prepare]-+  +---[start]--+
@@ -56,6 +58,8 @@ Modules can be assigned to a group. Belonging to a group "X" is the same
 as tagging the module with "X" and having an "after" dependency to the
 group preceeding "X" (if there is one) plus a "before" dependency to the
 group following "X" (if there is one).
+
+By default there are 6 groups defined:
 
 ```txt
 +--------+  +--------+  +--------+  +--------+  +--------+  +--------+
