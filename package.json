@@ -1,6 +1,6 @@
 {
     "name":        "microkernel",
-    "version":     "1.0.1",
+    "version":     "1.0.2",
     "description": "Microkernel for Server Applications",
     "keywords": [
         "micro", "kernel", "server",
@@ -30,7 +30,7 @@
         "gdo":                  "~0.9.7"
     },
     "devDependencies": {
-        "grunt":                "~0.4.5",
+        "grunt":                "~1.0.1",
         "grunt-cli":            "~1.2.0",
         "grunt-contrib-jshint": "~1.0.0",
         "grunt-contrib-clean":  "~1.0.0",
