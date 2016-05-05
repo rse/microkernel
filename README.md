@@ -196,7 +196,7 @@ declare module Microkernel {
         exec(...files: string[]): Promise;
 
         /*  require() and instanciate one or more module class files (fully synchronously).
-            Each file is expected to export a class/fnction of type
+            Each file is expected to export a class/function of type
             "ModuleClass". It is instanciated and added to the kernel.  */
         load(...files: string[]): Kernel;
 
