@@ -243,3 +243,4 @@ declare module Microkernel {
 
 /*  the API symbol  */
 declare var Microkernel: Microkernel.KernelClass;
+
