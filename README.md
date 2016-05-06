@@ -37,7 +37,8 @@ states the microkernel calls the optional enter (or leave) transition
 method, in (reverse) order after a topological sort, on all modules
 providing them.
 
-By default there are 6 states defined:
+By default there are 6 states defined (but you can easily redefine the
+entire state transition scheme):
 
 ```txt
       +---[boot]--+   +-[latch]--+   +[configure]+  +-[prepare]-+  +---[start]--+
@@ -53,28 +54,88 @@ By default there are 6 states defined:
       +-[shutdown]+   +-[unlatch]+   +--[reset]--+  +-[release]-+  +---[stop]---+
 ```
 
-### Module Groups
+This means, for instance, if you trigger the microkernel to transition
+from state `booted` to `configured` it will (1) give all modules a
+chance to perform work in their `latch` method, then (2) transition to
+intermediate state `latched`, then (3) give all modules a chance to
+perform work in their `configure` method and finally (4) transition to
+state `configured`.
 
-Modules can be assigned to a group. Belonging to a group "X" is the
-same as tagging the module with "X" and having an "after" dependency to
-the group preceeding "X" (if there is one) plus a "before" dependency
-to the group following "X" (if there is one). So, a group acts like a
-chronological phase for modules.
+Similarly, for instance, if you the trigger the microkernel to transition back
+from state `configured` to `booted` it will (1) give all modules a
+chance to perform work in their `reset` method, then (2) transition to
+intermediate state `latched`, then (3) give all modules a chance to
+perform work in their `unlatch` method and finally (4) transition to
+state `booted`.
 
-By default there are 6 groups defined:
+The default state transition scheme is defined with:
+
+```js
+kernel.transitions([
+    { state: "dead",       enter: null,        leave: null       },
+    { state: "booted",     enter: "boot",      leave: "shutdown" },
+    { state: "latched",    enter: "latch",     leave: "unlatch"  },
+    { state: "configured", enter: "configure", leave: "reset"    },
+    { state: "prepared",   enter: "prepare",   leave: "release"  },
+    { state: "started",    enter: "start",     leave: "stop"     }
+])
+```
+
+The default states are intended for:
+
+- `dead`: the modules are dead (lowest internal state the microkernel can be in)
+- `booted`: the modules are booted, i.e., base services like logging are established.
+- `latched`: the modules are latched into services of each other.
+- `configured`: the modules are fully configured.
+- `prepared`: the modules are prepared, i.e., their resources are loaded.
+- `started`: the modules are started, i.e., their services are operating.
+
+### Module Groups & Tags
+
+Modules can be assigned to a group and/or assigned a tag.
+
+Belonging to a group `X` is the same as tagging the module with `X` and
+having an `after` dependency to the group preceeding `X` (if there is
+one) plus a `before` dependency to the group following `X` (if there is
+one). For module dependencies see below. In other words: a module group
+acts like a chronological phase to easily cluster modules.
+
+By default there are 6 groups defined (but you can easily redefine
+the module groups scheme):
 
 ```txt
-+--------+  +--------+  +--------+  +--------+  +--------+  +--------+
-|         \ |         \ |         \ |         \ |         \ |         \
-| BOOT     \| BASE     \| RESOURCE \| SERVICE  \| IDENT    \| USECASE  \
-|          /|          /|          /|          /|          /|          /
-|         / |         / |         / |         / |         / |         /
-+--------+  +--------+  +--------+  +--------+  +--------+  +--------+
++--------+  +--------+  +--------+  +--------+  +--------+
+|         \ |         \ |         \ |         \ |         \
+| BOOT     \| BASE     \| RESOURCE \| SERVICE  \| USECASE  \
+|          /|          /|          /|          /|          /
+|         / |         / |         / |         / |         /
++--------+  +--------+  +--------+  +--------+  +--------+
 ```
+
+The default module groups scheme is defined with:
+
+```js
+kernel.groups([
+    "BOOT", "BASE", "RESOURCE", "SERVICE", "USECASE"
+])
+```
+
+The default groups are intended for:
+
+- `BOOT`: modules performing bootstrapping functionalities,
+  e.g., determining base directories, application information, etc.
+- `BASE`: modules providing base functionalities,
+  e.g. process forking, daemonizing, option parsing, configuration loading, establishing logging, etc.
+- `RESOURCE`: modules providing resources,
+  e.g. database connections, etc.
+- `SERVICE`: modules providing internal services,
+  e.g. server framework setup, authentication, authorization, accounting, etc.
+- `USECASE`: modules providing request functionality processing,
+  e.g. the various use-cases of the application.
 
 ### Module Dependencies
 
-Modules can have "after" and/or "before" dependencies to other modules
+Modules can have `after` and/or `before` dependencies to other modules
 (or groups or tags).
 
 ```txt
@@ -83,13 +144,15 @@ Modules can have "after" and/or "before" dependencies to other modules
      |             V
 +----------+   +----------+
 |          |   |          |
-| Module 1 |   | Module 2 |
+| Module-1 |   | Module-2 |
 |          |   |          |
 +----------+   +----------+
      ^             |
      |             |
      +---[after]---+
 ```
+
+This means `Module-1` is processed before `Module-2`.
 
 ### Module Definitions
 
@@ -99,12 +162,18 @@ above). In TypeScript notation, a module has to conform to the following
 interface (assuming the default transition configuration):
 
 ```ts
+interface Promise {
+    then(
+        onSuccess: (value?: any) => Promise | any | void,
+        onError?:  (error: any)  => Promise | any | void
+    ): Promise;
+}
 interface Module {
     /*  mandatory module descriptor.
         name:   unique name of module, by convention in all lower-case.
         tag:    one or more tags, by convention in all upper-case, to associate the module with.
-        before: one or more modules the current module has to come before.
-        after:  one or more modules the current module has to come after.  */
+        before: one or more modules (or groups or tags) the current module has to come before.
+        after:  one or more modules (or groups or tags) the current module has to come after.  */
     module: {
         name:    string;                  /*  e.g. "foo"  */
         tag?:    string | Array<string>;  /*  e.g. "RESOURCE"  */
@@ -114,17 +183,42 @@ interface Module {
 
     /*  optional default enter/leave methods
         kernel: backreference to the microkernel the module runs under  */
-    boot?:      (kernel: Kernel) => void;
-    latch?:     (kernel: Kernel) => void;
-    configure?: (kernel: Kernel) => void;
-    prepare?:   (kernel: Kernel) => void;
-    start?:     (kernel: Kernel) => void;
-    stop?:      (kernel: Kernel) => void;
-    release?:   (kernel: Kernel) => void;
-    reset?:     (kernel: Kernel) => void;
-    unlatch?:   (kernel: Kernel) => void;
-    shutdown?:  (kernel: Kernel) => void;
+    boot?:      (kernel: Kernel) => void | Promise;
+    latch?:     (kernel: Kernel) => void | Promise;
+    configure?: (kernel: Kernel) => void | Promise;
+    prepare?:   (kernel: Kernel) => void | Promise;
+    start?:     (kernel: Kernel) => void | Promise;
+    stop?:      (kernel: Kernel) => void | Promise;
+    release?:   (kernel: Kernel) => void | Promise;
+    reset?:     (kernel: Kernel) => void | Promise;
+    unlatch?:   (kernel: Kernel) => void | Promise;
+    shutdown?:  (kernel: Kernel) => void | Promise;
 }
+```
+
+A module is usually defined as (ECMAScript 6):
+
+```js
+export default class Module {
+    get module  ()  { return { name: "module1", group: "BOOT" } }
+    start       (k) { ... }
+    stop        (k) { ... }
+    ...
+}
+```
+
+Alternatively, a corresponding ECMAScript 5 definition is:
+
+```js
+var Module = function () {
+    this.module = { name: "module1", group: "BOOT" }
+}
+Module.prototype = {
+    start: function (k) { ... },
+    stop:  function (k) { ... },
+    ...
+}
+module.exports = Module
 ```
 
 Application Programming Interface (API)
