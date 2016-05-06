@@ -29,19 +29,22 @@ import glob    from "glob"
 export default class MicrokernelLoader {
     /*  load source files as a procedure
         (and hence execute them with the microkernel as context)  */
-    exec (...files) {
+    exec (...args) {
         return new Promise((resolve, reject) => {
             let seq = Promise.resolve()
-            files.forEach((file) => {
-                let filesExpanded = file.match(/[*?]/) !== null ? glob.sync(file) : [ file ]
-                if (filesExpanded.length === 0)
-                    throw new Error("no files found")
-                filesExpanded.forEach((fileExpanded) => {
-                    this.publish("microkernel:exec", fileExpanded)
-                    let mod = require(fileExpanded)
-                    if (typeof mod !== "function")
-                        throw new Error("file has not exported a function")
-                    seq = seq.then(() => mod(this))
+            args.forEach((arg) => {
+                let procs = arg.match(/[*?]/) !== null ? glob.sync(arg) : [ arg ]
+                if (procs.length === 0)
+                    throw new Error("no procedures found")
+                procs.forEach((proc) => {
+                    if (typeof proc === "string") {
+                        proc = require(proc)
+                        if (typeof proc !== "function" && typeof proc.default === "function")
+                            proc = proc.default
+                    }
+                    if (typeof proc !== "function")
+                        throw new Error("procedure file has not exported a function")
+                    seq = seq.then(() => proc(this))
                 })
             })
             seq.then(() => resolve(), (err) => reject(err))
@@ -50,13 +53,20 @@ export default class MicrokernelLoader {
 
     /*  load source files as module definition
         (and hence instanciate and add them to microkernel)  */
-    load (...files) {
-        files.forEach((file) => {
-            let filesExpanded = file.match(/[*?]/) !== null ? glob.sync(file) : [ file ]
-            filesExpanded.forEach((fileExpanded) => {
-                this.publish("microkernel:load", fileExpanded)
-                let mod = require(fileExpanded)
-                this.add(new mod())
+    load (...args) {
+        args.forEach((arg) => {
+            var mods = arg.match(/[*?]/) !== null ? glob.sync(arg) : [ arg ]
+            if (mods.length === 0)
+                throw new Error("no modules found")
+            mods.forEach((mod) => {
+                if (typeof mod === "string") {
+                    mod = require(mod)
+                    if (typeof mod !== "function" && typeof mod.default === "function")
+                        mod = mod.default
+                }
+                if (typeof mod === "function")
+                    mod = new mod()
+                this.add(mod)
             })
         })
         return this
