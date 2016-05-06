@@ -42,7 +42,7 @@ export default class MicrokernelState {
             { state: "started",    enter: "start",     leave: "stop" }
         ])
         this.groups([
-            "BOOT", "BASE", "RESOURCE", "SERVICE", "IDENT", "USECASE"
+            "BOOT", "BASE", "RESOURCE", "SERVICE", "USECASE"
         ])
     }
 
