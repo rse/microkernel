@@ -36,8 +36,8 @@ declare module Microkernel {
         /*  module descriptor.
             name:   unique name of module, by convention in all lower-case.
             tag:    one or more tags, by convention in all upper-case, to associate the module with.
-            before: one or more modules the current module has to come before.
-            after:  one or more modules the current module has to come after.  */
+            before: one or more modules (or groups or tags) the current module has to come before.
+            after:  one or more modules (or groups or tags) the current module has to come after.  */
         module: {
             name:    string;                  /*  "foo"  */
             tag?:    string | Array<string>;  /*  "RESOURCE"  */
