@@ -127,8 +127,12 @@ export default class MicrokernelState {
                     /*  call method on all modules  */
                     names.forEach((name) => {
                         let mod = this.name2mod.get(name)
-                        if (typeof mod[methodName] === "function")
-                            seq = seq.then(() => mod[methodName].call(mod, this))
+                        let method = mod[methodName]
+                        /* eslint no-console: 0 */
+                        if (typeof method === "function") {
+                            method = this.hook("microkernel:state:call", "pass", method, mod)
+                            seq = seq.then(() => method.call(mod, this))
+                        }
                     })
 
                     /*  go to new state  */
