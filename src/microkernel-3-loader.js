@@ -55,6 +55,17 @@ export default class MicrokernelLoader {
         (and hence instanciate and add them to microkernel)  */
     load (...args) {
         args.forEach((arg) => {
+            let opts
+            if (   typeof arg === "object"
+                && arg instanceof Array
+                && arg.length === 2
+                && typeof arg[0] === "string"
+                && typeof arg[1] === "object") {
+                opts = arg[1]
+                arg  = arg[0]
+            }
+            if (typeof arg !== "string")
+                throw new Error("invalid argument")
             var mods = arg.match(/[*?]/) !== null ? glob.sync(arg) : [ arg ]
             if (mods.length === 0)
                 throw new Error("no modules found")
@@ -65,7 +76,7 @@ export default class MicrokernelLoader {
                         mod = mod.default
                 }
                 if (typeof mod === "function")
-                    mod = new mod()
+                    mod = opts ? new mod(opts) : new mod()
                 this.add(mod)
             })
         })
