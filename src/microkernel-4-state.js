@@ -100,12 +100,8 @@ export default class MicrokernelState {
             /*  publish internal event (for use by an application)  */
             let publishEvent = (when, from, to, method) => {
                 seq = seq.then(() => {
-                    this.publish(
-                        `microkernel:state:transit:${when}`,
-                        this._num2state[from].state,
-                        this._num2state[to].state,
-                        method
-                    )
+                    this.hook(`microkernel:state:transit:${when}`, "none",
+                        this._num2state[from].state, this._num2state[to].state, method)
                 })
             }
 
@@ -130,8 +126,14 @@ export default class MicrokernelState {
                         let method = mod[methodName]
                         /* eslint no-console: 0 */
                         if (typeof method === "function") {
-                            method = this.hook("microkernel:state:call", "pass", method, mod)
-                            seq = seq.then(() => method.call(mod, this))
+                            seq = seq.then(() => {
+                                method = this.hook("microkernel:state:call:before", "pass",
+                                    method, mod, methodName, name)
+                                let result = method.call(mod, this)
+                                result = this.hook("microkernel:state:call:after", "pass",
+                                    result, methodName, name)
+                                return result
+                            })
                         }
                     })
 
