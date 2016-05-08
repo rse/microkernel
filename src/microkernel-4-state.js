@@ -85,7 +85,7 @@ export default class MicrokernelState {
                 gdo.element(mod.module)
             })
             this._modOrder = gdo.order()
-            this.publish("microkernel:state:toposort", this._modOrder, this.mod)
+            this.hook("microkernel:state:toposort", "none", this._modOrder, this.mod)
         }
 
         /*  create outer promise chain  */
