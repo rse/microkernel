@@ -25,7 +25,7 @@
     "bugs":     "https://github.com/rse/microkernel/issues",
     "dependencies": {
         "aggregation":          "~0.9.8",
-        "core-js":              "~2.3.0",
+        "core-js":              "~2.4.0",
         "glob":                 "~7.0.3",
         "gdo":                  "~0.9.7"
     },
