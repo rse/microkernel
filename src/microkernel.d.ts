@@ -75,7 +75,7 @@ declare module Microkernel {
         del(module: ModuleClass | Module): Kernel;
 
         /*  get a module from the kernel by its name  */
-        get(name: string): Module
+        get(name: string): Module;
 
         /*  require() and execute one or more procedure files (potentially asynchronously).
             Each file is expected to export a single function of type
