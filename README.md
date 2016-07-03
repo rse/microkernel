@@ -87,7 +87,7 @@ The default states are intended for:
 - `dead`: the modules are dead (lowest internal state the microkernel can be in)
 - `booted`: the modules are booted, i.e., base services like logging are established.
 - `latched`: the modules are latched into services of each other.
-- `configured`: the modules are fully configured.
+- `configured`: the modules are fully configured, i.e., their parameters are known.
 - `prepared`: the modules are prepared, i.e., their resources are loaded.
 - `started`: the modules are started, i.e., their services are operating.
 
@@ -101,7 +101,7 @@ one) plus a `before` dependency to the group following `X` (if there is
 one). For module dependencies see below. In other words: a module group
 acts like a chronological phase to easily cluster modules.
 
-By default there are 6 groups defined (but you can easily redefine
+By default, there are 6 groups pre-defined (but you can easily re-define
 the module groups scheme):
 
 ```txt
@@ -153,7 +153,7 @@ Modules can have `after` and/or `before` dependencies to other modules
      +---[after]---+
 ```
 
-This means `Module-1` is processed before `Module-2`.
+This means `Module-1` comes before `Module-2` in the topological order of all modules.
 
 ### Module Definitions
 
@@ -310,7 +310,7 @@ declare module Microkernel {
         ): Kernel;
 
         /*  Retrieve the current state or trigger a transition to a new
-            state. There are 4+1 states and their corresponding enter (from
+            state. There are 5+1 states and their corresponding enter (from
             lower to higher) or leave (from higher to lower) method names:
 
                 State      Enter     Leave
@@ -451,6 +451,8 @@ declare module Microkernel {
 Example
 -------
 
+The following is a small example to show the various microkernel functionalities:
+
 - `app.js`:
 
 ```js
@@ -469,6 +471,8 @@ import Mod4 from "./app-mod4"
 /*  load application modules into microkernel  */
 kernel.add(Mod1)
 kernel.add(Mod2)
+kernel.add(Mod3)
+kernel.add(Mod4)
 
 /*  startup microkernel and its modules  */
 kernel.state("started").catch((err) => {
