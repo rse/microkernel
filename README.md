@@ -550,7 +550,7 @@ Extension Procedures and Modules
 
 Check out the set of existing
 [Microkernel extension procedures and modules](https://www.npmjs.com/browse/keyword/microkernel).
-They encapsulate common functionalities a Microkernel based server application needs.
+They encapsulate common functionalities a Microkernel-based server application usually needs.
 
 License
 -------
