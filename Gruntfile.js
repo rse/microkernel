@@ -43,15 +43,14 @@ module.exports = function (grunt) {
         },
         eslint: {
             options: {
-                config: "eslint.json"
+                configFile: "eslint.json"
             },
             "microkernel": [ "src/**/*.js", "tst/**/*.js" ]
         },
         jscs: {
             "microkernel": {
                 options: {
-                    config: "jscs.json",
-                    esnext: true
+                    config: "jscs.json"
                 },
                 files: {
                     src: [ "src/**/*.js", "tst/**/*.js" ]
