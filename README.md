@@ -16,7 +16,8 @@ About
 Microkernel is JavaScript library, for use in
 [Node.js](http://nodejs.org/) environments,
 to structure and manage server applications with the help of modules, a
-stateful life-cycle, hooks, events, services and resources.
+stateful life-cycle, hooks, events, services and resources. It
+follows the Component-Orientation paradigm.
 
 Installation
 ------------
@@ -28,7 +29,8 @@ $ npm install microkernel
 Basic Concepts
 --------------
 
-The microkernel design follows the following primary concepts.
+The microkernel design follows the primary concepts State Transitions,
+Module Groups &amp; Tags, Module Dependencies and Module Definitions.
 
 ### State Transitions
 
