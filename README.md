@@ -35,12 +35,11 @@ Module Groups &amp; Tags, Module Dependencies and Module Definitions.
 ### State Transitions
 
 There are states the microkernel can be in. For transitioning between
-states the microkernel calls the optional enter (or leave) transition
-method, in (reverse) order after a topological sort, on all modules
-providing them.
+states, the microkernel calls optional enter (or leave) transition
+method in (reverse) order on all topologically sorted modules.
 
-By default there are 6 states defined (but you can easily redefine the
-entire state transition scheme):
+By default, there are 6 states pre-defined (but you can easily re-define
+the entire state transition scheme):
 
 ```txt
       +---[boot]--+   +-[latch]--+   +[configure]+  +-[prepare]-+  +---[start]--+
