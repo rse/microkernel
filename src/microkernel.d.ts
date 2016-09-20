@@ -35,11 +35,13 @@ declare module Microkernel {
     interface Module {
         /*  module descriptor.
             name:   unique name of module, by convention in all lower-case.
+            group:  one group,        by convention in all upper-case, to associate the module with.
             tag:    one or more tags, by convention in all upper-case, to associate the module with.
             before: one or more modules (or groups or tags) the current module has to come before.
             after:  one or more modules (or groups or tags) the current module has to come after.  */
         module: {
             name:    string;                  /*  "foo"  */
+            group?:  string;                  /*  "RESOURCE"  */
             tag?:    string | Array<string>;  /*  "RESOURCE"  */
             before?: string | Array<string>;  /*  [ "BOOT", "bar" ]  */
             after?:  string | Array<string>;  /*  "quux"  */
