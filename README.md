@@ -389,10 +389,8 @@ declare module Microkernel {
         hook(name: string, proc: string, ...params: any[]): any;
 
         /*  Subscribe to a named event with the help of a callback function.
-            The callback function is called as "ctx.callback(...params, result)"
-            once "kernel.hook(name, proc, ...params)" is called. The trailing
-            argument is the initial or intermediate result and the function
-            is expected to return the next intermediate or final result.
+            The callback function is called as "ctx.callback(...params)"
+            once "kernel.publish(name, ...params)" is called.
             The "subscribe" function returns a unique id for subsequent unsubscribing.
             There is a short-hand method "on" which is equivalent to "subscribe".  */
         on(
