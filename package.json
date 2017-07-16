@@ -27,7 +27,7 @@
         "aggregation":          "~1.2.0",
         "core-js":              "~2.4.1",
         "glob":                 "~7.1.2",
-        "gdo":                  "~1.0.2"
+        "gdo":                  "~1.1.0"
     },
     "devDependencies": {
         "grunt":                "~1.0.1",
@@ -38,10 +38,10 @@
         "grunt-browserify":     "~5.0.0",
         "grunt-mocha-test":     "~0.13.2",
         "grunt-jscs":           "~3.0.1",
-        "grunt-eslint":         "~19.0.0",
+        "grunt-eslint":         "~20.0.0",
         "babel-eslint":         "~7.2.3",
         "mocha":                "~3.4.2",
-        "chai":                 "~4.0.2",
+        "chai":                 "~4.1.0",
         "babelify":             "~7.3.0",
         "babel-preset-es2015":  "~6.24.1",
         "babel-runtime":        "~6.23.0",
