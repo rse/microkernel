@@ -43,7 +43,7 @@ module.exports = function (grunt) {
         },
         eslint: {
             options: {
-                configFile: "eslint.json"
+                configFile: "eslint.yaml"
             },
             "microkernel": [ "src/**/*.js", "tst/**/*.js" ]
         },
