@@ -110,7 +110,7 @@ export default class MicrokernelState {
                 /*  determine modulesdto call (in expected order)  */
                 let names = this._modOrder
                 if (reverse)
-                   names = names.reverse()
+                    names = names.reverse()
 
                 /*  loop until state is reached  */
                 while (stateFrom !== stateTo) {
