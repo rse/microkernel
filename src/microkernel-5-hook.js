@@ -27,6 +27,7 @@ import Set from "core-js/library/es6/set"
 /*  internal hook processing  */
 var hookProc = {
     /* jscs: disable */
+    /* eslint standard/object-curly-even-spacing: off */
     "none":   { init: undefined,   step: (    ) => {}                        },
     "pass":   { init: (a) => a[0], step: (o, n) => n                         },
     "or":     { init: false,       step: (o, n) => o || n                    },

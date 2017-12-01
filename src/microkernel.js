@@ -34,9 +34,7 @@ import Service     from "./microkernel-7-service"
 import Resource    from "./microkernel-8-resource"
 
 /*  the API class  */
-class Microkernel extends
-    aggregation(Version, Manifest, Loader, State,
-                Hook, Event, Service, Resource) {
+class Microkernel extends aggregation(Version, Manifest, Loader, State, Hook, Event, Service, Resource) {
     /*  initialize the microkernel instance  */
     constructor () {
         super()
