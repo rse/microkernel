@@ -55,5 +55,9 @@
         "browserify-derequire":    "0.9.4",
         "browserify-replace":      "0.9.0",
         "source-map-support":      "0.5.4"
+    },
+    "scripts": {
+        "prepublishOnly":  "grunt default",
+        "build":           "grunt default"
     }
 }
