@@ -22,11 +22,11 @@
 **  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-var Microkernel = require("../lib/microkernel.js")
+const Microkernel = require("..")
 
-describe("Microkernel Library: Resource", function () {
-    it("rs()/resource() functionality", function () {
-        var mk = new Microkernel()
+describe("Microkernel Library: Resource", () => {
+    it("rs()/resource() functionality", () => {
+        let mk = new Microkernel()
         expect(mk).to.respondTo("rs")
         expect(mk).to.respondTo("resource")
 

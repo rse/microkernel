@@ -22,11 +22,10 @@
 **  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-import Promise from "core-js/library/es6/promise"
-import glob    from "glob"
+const glob = require("glob")
 
 /*  the mixin class  */
-export default class MicrokernelLoader {
+module.exports = class MicrokernelLoader {
     /*  load source files as a procedure
         (and hence execute them with the microkernel as context)  */
     exec (...args) {

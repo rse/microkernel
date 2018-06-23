@@ -22,13 +22,11 @@
 **  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-import Promise from "core-js/library/es6/promise"
-
 /*  internal registration counter  */
-var cnt = 0
+let cnt = 0
 
 /*  the mixin class  */
-export default class MicrokernelEvent {
+module.exports = class MicrokernelEvent {
     /*  initialize the mixin  */
     initializer () {
         this._subscription = {}

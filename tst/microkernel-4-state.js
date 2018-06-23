@@ -22,30 +22,30 @@
 **  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-var path = require("path")
-var Microkernel = require("../lib/microkernel.js")
+const path = require("path")
+const Microkernel = require("..")
 
-describe("Microkernel Library: State", function () {
-    it("state() functionality", function (done) {
-        var mk = new Microkernel()
+describe("Microkernel Library: State", () => {
+    it("state() functionality", (done) => {
+        let mk = new Microkernel()
         expect(mk).to.respondTo("state")
         mk.load(path.join(__dirname, "sample-load1.js"))
         mk.load(path.join(__dirname, "sample-load2.js"))
 
         expect(mk.state()).to.be.equal("dead")
-        mk.state("started").then(function (state) {
+        mk.state("started").then((state) => {
             expect(state).to.be.equal("started")
-            mk.state("dead").then(function (state2) {
+            mk.state("dead").then((state2) => {
                 expect(state2).to.be.equal("dead")
                 expect(mk.get("load1").log()).to.be.deep.equal([
                     "boot", "latch", "configure", "prepare", "start",
                     "stop", "release", "reset", "unlatch", "shutdown"
                 ])
                 done()
-            }, function (err) {
+            }, (err) => {
                 done(err)
             })
-        }, function (err) {
+        }, (err) => {
             done(err)
         })
     })

@@ -22,23 +22,23 @@
 **  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-var path = require("path")
-var Microkernel = require("../lib/microkernel.js")
+const path = require("path")
+const Microkernel = require("..")
 
-describe("Microkernel Library: Loader", function () {
-    it("exec() functionality", function (done) {
-        var mk = new Microkernel()
+describe("Microkernel Library: Loader", () => {
+    it("exec() functionality", (done) => {
+        let mk = new Microkernel()
         expect(mk).to.respondTo("exec")
-        mk.exec(path.join(__dirname, "sample-exec*.js")).then(function () {
+        mk.exec(path.join(__dirname, "sample-exec*.js")).then(() => {
             expect(mk.exec1).to.be.equal(true)
             expect(mk.exec2).to.be.equal(true)
             done()
-        }, function (err) {
+        }, (err) => {
             done(err)
         })
     })
-    it("load() functionality", function () {
-        var mk = new Microkernel()
+    it("load() functionality", () => {
+        let mk = new Microkernel()
         expect(mk).to.respondTo("load")
         mk.load(path.join(__dirname, "sample-load*.js"))
         expect(mk.load1).to.be.equal(true)

@@ -1,9 +1,9 @@
 
 module.exports = function (mk) {
     /* global Promise: true */
-    return new Promise(function (resolve /*, reject */) {
+    return new Promise((resolve /*, reject */) => {
         /* global setTimeout: true */
-        setTimeout(function () {
+        setTimeout(() => {
             mk.exec2 = true
             resolve()
         }, 100)

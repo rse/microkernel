@@ -22,10 +22,8 @@
 **  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-import Set from "core-js/library/es6/set"
-
 /*  internal hook processing  */
-var hookProc = {
+let hookProc = {
     /* jscs: disable */
     /* eslint standard/object-curly-even-spacing: off */
     "none":   { init: undefined,   step: (    ) => {}                        },
@@ -44,10 +42,10 @@ var hookProc = {
 }
 
 /*  internal registration counter  */
-var cnt = 0
+let cnt = 0
 
 /*  the mixin class  */
-export default class MicrokernelHook {
+module.exports = class MicrokernelHook {
     /*  initialize the mixin  */
     initializer () {
         this._hooks = {}

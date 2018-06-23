@@ -1,6 +1,6 @@
 
-var mod = function () {
-}
+var mod = function () {}
+
 mod.prototype = {
     module: {
         name: "load2"
@@ -30,5 +30,6 @@ mod.prototype = {
     unlatch:   function () { this.log("unlatch") },
     shutdown:  function () { this.log("shutdown") }
 }
+
 module.exports = mod
 

@@ -1,15 +1,15 @@
 
 /*  import Microkernel library  */
-import Microkernel from "../lib/microkernel"
+const Microkernel = require("..")
 
 /*  instanciate a microkernel  */
 const kernel = new Microkernel()
 
 /*  import application modules  */
-import Mod1 from "./app-mod1"
-import Mod2 from "./app-mod2"
-import Mod3 from "./app-mod3"
-import Mod4 from "./app-mod4"
+const Mod1 = require("./app-mod1")
+const Mod2 = require("./app-mod2")
+const Mod3 = require("./app-mod3")
+const Mod4 = require("./app-mod4")
 
 /*  load application modules into microkernel  */
 kernel.add(Mod1)

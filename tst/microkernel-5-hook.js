@@ -22,18 +22,18 @@
 **  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-var Microkernel = require("../lib/microkernel.js")
+const Microkernel = require("..")
 
-describe("Microkernel Library: Hook", function () {
-    it("at()/latch()/unlatch()/hook() functionality", function () {
-        var mk = new Microkernel()
+describe("Microkernel Library: Hook", () => {
+    it("at()/latch()/unlatch()/hook() functionality", () => {
+        let mk = new Microkernel()
         expect(mk).to.respondTo("at")
         expect(mk).to.respondTo("latch")
         expect(mk).to.respondTo("unlatch")
         expect(mk).to.respondTo("hook")
 
         /*  simple "none" processing  */
-        var ok = 0
+        let ok = 0
         mk.at("foo", function (a1, a2) {
             if (a1 === 7 && a2 === false && this[0] === 42)
                 ok++
@@ -46,28 +46,28 @@ describe("Microkernel Library: Hook", function () {
         expect(ok).to.be.equal(2)
 
         /*  simple "pass" processing  */
-        mk.at("bar", function (a, v) {
+        mk.at("bar", (a, v) => {
             return v + "2"
         })
-        mk.at("bar", function (a, v) {
+        mk.at("bar", (a, v) => {
             return v + "3"
         })
         expect(mk.hook("bar", "pass", "1")).to.be.equal("123")
 
         /*  simple "or" processing  */
-        mk.at("accessGranted", function (/* a, v */) {
+        mk.at("accessGranted", (/* a, v */) => {
             return false
         })
-        mk.at("accessGranted", function (/* a, v */) {
+        mk.at("accessGranted", (/* a, v */) => {
             return true
         })
         expect(mk.hook("accessGranted", "and", true)).to.be.equal(false)
 
         /*  simple "assign" processing  */
-        mk.at("config", function (/* a, v */) {
+        mk.at("config", (/* a, v */) => {
             return { foo: 1, bar: 2 }
         })
-        mk.at("config", function (/* a, v */) {
+        mk.at("config", (/* a, v */) => {
             return { baz: 3, quux: 4 }
         })
         expect(mk.hook("config", "assign", {})).to.be.deep.equal({

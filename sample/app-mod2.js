@@ -1,5 +1,5 @@
 
-export default class Mod2 {
+module.exports = class Mod2 {
     get module  ()  { return { name: "mod2", group: "BASE" } }
     boot        (k) { console.log(`boot:     ${this.module.name}`) }
     start       (k) { console.log(`start:    ${this.module.name}`) }

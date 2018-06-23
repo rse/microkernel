@@ -22,11 +22,10 @@
 **  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-import Promise from "core-js/library/es6/promise"
-import GDO     from "gdo"
+const GDO = require("gdo")
 
 /*  the mixin class  */
-export default class MicrokernelState {
+module.exports = class MicrokernelState {
     /*  initialize the microkernel instance  */
     initializer () {
         this._state = "dead"

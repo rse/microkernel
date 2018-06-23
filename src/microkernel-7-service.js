@@ -23,7 +23,7 @@
 */
 
 /*  the mixin class  */
-export default class MicrokernelService {
+module.exports = class MicrokernelService {
     /*  initialize the mixin  */
     initializer () {
         this._registration = {}

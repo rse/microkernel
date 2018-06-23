@@ -23,7 +23,7 @@
 */
 
 /*  the mixin class  */
-export default class MicrokernelResource {
+module.exports = class MicrokernelResource {
     /*  initialize the mixin  */
     initializer () {
         this._resource = {}

@@ -22,23 +22,23 @@
 **  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-var path = require("path")
-var Microkernel = require("../lib/microkernel.js")
+const path = require("path")
+const Microkernel = require("..")
 
-describe("Microkernel Library: Manifest", function () {
-    it("add()/del()/get() functionality", function () {
-        var mk = new Microkernel()
+describe("Microkernel Library: Manifest", () => {
+    it("add()/del()/get() functionality", () => {
+        let mk = new Microkernel()
         expect(mk).to.respondTo("add")
-        var Mod1 = require(path.join(__dirname, "sample-load1.js"))
-        var Mod2 = require(path.join(__dirname, "sample-load2.js"))
+        let Mod1 = require(path.join(__dirname, "sample-load1.js"))
+        let Mod2 = require(path.join(__dirname, "sample-load2.js"))
         mk.add(Mod1)
         mk.add(Mod2)
         expect(mk.get("load1") instanceof Mod1).to.be.equal(true)
         expect(mk.get("load2") instanceof Mod2).to.be.equal(true)
         mk.del(Mod1)
         mk.del(Mod2)
-        var obj1 = new Mod1()
-        var obj2 = new Mod2()
+        let obj1 = new Mod1()
+        let obj2 = new Mod2()
         mk.add(obj1)
         mk.add(obj2)
         expect(mk.get("load1")).to.be.equal(obj1)

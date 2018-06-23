@@ -22,23 +22,21 @@
 ##  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ##
 
-NPM   = npm
-GRUNT = ./node_modules/grunt-cli/bin/grunt
+NPM = npm
 
 all: build
 
 bootstrap:
-	@if [ ! -x $(GRUNT) ]; then $(NPM) install; fi
+	@if [ ! -d ./node_modules ]; then $(NPM) install; fi
 
 build: bootstrap
-	@$(GRUNT)
+	@$(NPM) run lint
 
-clean: bootstrap
-	@$(GRUNT) clean:clean
+clean:
 
-distclean: bootstrap
-	@$(GRUNT) clean:clean clean:distclean
+distclean:
+	-rm -rf node_modules
 
 test:
-	@$(GRUNT) test
+	@$(NPM) test
 

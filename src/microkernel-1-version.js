@@ -22,19 +22,19 @@
 **  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-/* global $major: false */
-/* global $minor: false */
-/* global $micro: false */
-/* global $date:  false */
+const path = require("path")
+const fs   = require("fs")
+const yaml = require("js-yaml")
 
 /*  the mixin class  */
-export default class MicrokernelVersion {
+module.exports = class MicrokernelVersion {
     version () {
+        let VERSION = yaml.safeLoad(fs.readFileSync(path.join(__dirname, "..", "VERSION.yml"), "utf8"))
         return {
-            major: $major,
-            minor: $minor,
-            micro: $micro,
-            date:  $date
+            major: VERSION.major,
+            minor: VERSION.minor,
+            micro: VERSION.micro,
+            date:  VERSION.date
         }
     }
 }

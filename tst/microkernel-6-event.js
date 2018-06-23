@@ -22,18 +22,18 @@
 **  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-var Microkernel = require("../lib/microkernel.js")
+const Microkernel = require("..")
 
-describe("Microkernel Library: Event", function () {
-    it("on()/subscribe()/unsubscribe()/publish() functionality", function (done) {
-        var mk = new Microkernel()
+describe("Microkernel Library: Event", () => {
+    it("on()/subscribe()/unsubscribe()/publish() functionality", (done) => {
+        let mk = new Microkernel()
         expect(mk).to.respondTo("on")
         expect(mk).to.respondTo("subscribe")
         expect(mk).to.respondTo("unsubscribe")
         expect(mk).to.respondTo("publish")
 
         /*  simple "none" processing  */
-        var ok = 0
+        let ok = 0
         mk.on("foo", function (a1, a2) {
             if (a1 === 7 && a2 === false && this[0] === 42)
                 ok++
@@ -42,7 +42,7 @@ describe("Microkernel Library: Event", function () {
             if (a1 === 7 && a2 === false && this[0] === 13)
                 ok++
         }, [ 13 ])
-        mk.publish("foo", 7, false).then(function () {
+        mk.publish("foo", 7, false).then(() => {
             expect(ok).to.be.equal(2)
             done()
         })

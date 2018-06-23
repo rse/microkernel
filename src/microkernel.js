@@ -22,16 +22,16 @@
 **  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-import aggregation from "aggregation/es6"
+const aggregation = require("aggregation/es6")
 
-import Version     from "./microkernel-1-version"
-import Manifest    from "./microkernel-2-manifest"
-import Loader      from "./microkernel-3-loader"
-import State       from "./microkernel-4-state"
-import Hook        from "./microkernel-5-hook"
-import Event       from "./microkernel-6-event"
-import Service     from "./microkernel-7-service"
-import Resource    from "./microkernel-8-resource"
+const Version     = require("./microkernel-1-version")
+const Manifest    = require("./microkernel-2-manifest")
+const Loader      = require("./microkernel-3-loader")
+const State       = require("./microkernel-4-state")
+const Hook        = require("./microkernel-5-hook")
+const Event       = require("./microkernel-6-event")
+const Service     = require("./microkernel-7-service")
+const Resource    = require("./microkernel-8-resource")
 
 /*  the API class  */
 class Microkernel extends aggregation(Version, Manifest, Loader, State, Hook, Event, Service, Resource) {
