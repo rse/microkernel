@@ -25,17 +25,17 @@
     "bugs":     "https://github.com/rse/microkernel/issues",
     "dependencies": {
         "js-yaml":                 "3.12.0",
-        "aggregation":             "1.2.3",
+        "aggregation":             "1.2.4",
         "glob":                    "7.1.2",
         "gdo":                     "1.1.7"
     },
     "devDependencies": {
         "babel-eslint":            "8.2.5",
-        "eslint":                  "5.0.0",
+        "eslint":                  "5.0.1",
         "eslint-config-standard":  "11.0.0",
         "eslint-plugin-standard":  "3.1.0",
         "eslint-plugin-promise":   "3.8.0",
-        "eslint-plugin-import":    "2.12.0",
+        "eslint-plugin-import":    "2.13.0",
         "eslint-plugin-node":      "6.0.1",
         "mocha":                   "5.2.0",
         "chai":                    "4.1.2"
