@@ -27,11 +27,11 @@
         "js-yaml":                 "3.12.0",
         "aggregation":             "1.2.4",
         "glob":                    "7.1.2",
-        "gdo":                     "1.1.7"
+        "gdo":                     "1.1.8"
     },
     "devDependencies": {
-        "babel-eslint":            "8.2.5",
-        "eslint":                  "5.0.1",
+        "babel-eslint":            "8.2.6",
+        "eslint":                  "5.1.0",
         "eslint-config-standard":  "11.0.0",
         "eslint-plugin-standard":  "3.1.0",
         "eslint-plugin-promise":   "3.8.0",
