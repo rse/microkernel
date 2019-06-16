@@ -27,7 +27,7 @@
         "js-yaml":                 "3.13.1",
         "aggregation":             "1.2.5",
         "glob":                    "7.1.4",
-        "gdo":                     "1.2.0"
+        "gdo":                     "1.2.1"
     },
     "devDependencies": {
         "babel-eslint":            "10.0.1",
