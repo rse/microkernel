@@ -26,7 +26,7 @@ const Microkernel = require("..")
 
 describe("Microkernel Library: Version", () => {
     it("basic functionality", () => {
-        let mk = new Microkernel()
+        const mk = new Microkernel()
         expect(mk).to.respondTo("version")
         expect(mk.version()).to.have.property("major")
         expect(mk.version()).to.have.property("minor")

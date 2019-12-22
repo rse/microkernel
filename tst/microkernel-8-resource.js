@@ -26,7 +26,7 @@ const Microkernel = require("..")
 
 describe("Microkernel Library: Resource", () => {
     it("rs()/resource() functionality", () => {
-        let mk = new Microkernel()
+        const mk = new Microkernel()
         expect(mk).to.respondTo("rs")
         expect(mk).to.respondTo("resource")
 

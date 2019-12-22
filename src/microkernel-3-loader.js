@@ -32,7 +32,7 @@ module.exports = class MicrokernelLoader {
         return new Promise((resolve, reject) => {
             let seq = Promise.resolve()
             args.forEach((arg) => {
-                let procs = arg.match(/[*?]/) !== null ? glob.sync(arg) : [ arg ]
+                const procs = arg.match(/[*?]/) !== null ? glob.sync(arg) : [ arg ]
                 if (procs.length === 0)
                     throw new Error("no procedures found")
                 procs.forEach((proc) => {

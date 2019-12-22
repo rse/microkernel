@@ -75,7 +75,7 @@ module.exports = class MicrokernelService {
             throw new Error(`service: no such service registered: ${name}`)
 
         /*  call registered function  */
-        let r = this._registration[name][0]
+        const r = this._registration[name][0]
         return r.cb.apply(r.ctx, params)
     }
 }

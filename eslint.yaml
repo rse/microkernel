@@ -68,4 +68,6 @@ rules:
     no-useless-call:                     off
     no-useless-constructor:              off
     standard/computed-property-even-spacing: off
+    array-bracket-spacing:               off
+    quote-props:                         off
 

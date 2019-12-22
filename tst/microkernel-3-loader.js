@@ -27,7 +27,7 @@ const Microkernel = require("..")
 
 describe("Microkernel Library: Loader", () => {
     it("exec() functionality", (done) => {
-        let mk = new Microkernel()
+        const mk = new Microkernel()
         expect(mk).to.respondTo("exec")
         mk.exec(path.join(__dirname, "sample-exec*.js")).then(() => {
             expect(mk.exec1).to.be.equal(true)
@@ -38,7 +38,7 @@ describe("Microkernel Library: Loader", () => {
         })
     })
     it("load() functionality", () => {
-        let mk = new Microkernel()
+        const mk = new Microkernel()
         expect(mk).to.respondTo("load")
         mk.load(path.join(__dirname, "sample-load*.js"))
         expect(mk.load1).to.be.equal(true)

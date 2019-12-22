@@ -27,7 +27,7 @@ const Microkernel = require("..")
 
 describe("Microkernel Library: State", () => {
     it("state() functionality", (done) => {
-        let mk = new Microkernel()
+        const mk = new Microkernel()
         expect(mk).to.respondTo("state")
         mk.load(path.join(__dirname, "sample-load1.js"))
         mk.load(path.join(__dirname, "sample-load2.js"))

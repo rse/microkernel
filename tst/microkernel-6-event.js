@@ -26,7 +26,7 @@ const Microkernel = require("..")
 
 describe("Microkernel Library: Event", () => {
     it("on()/subscribe()/unsubscribe()/publish() functionality", (done) => {
-        let mk = new Microkernel()
+        const mk = new Microkernel()
         expect(mk).to.respondTo("on")
         expect(mk).to.respondTo("subscribe")
         expect(mk).to.respondTo("unsubscribe")

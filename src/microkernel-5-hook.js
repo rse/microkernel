@@ -23,7 +23,7 @@
 */
 
 /*  internal hook processing  */
-let hookProc = {
+const hookProc = {
     /* jscs: disable */
     /* eslint standard/object-curly-even-spacing: off */
     "none":   { init: undefined,   step: (    ) => {}                        },
@@ -67,7 +67,7 @@ module.exports = class MicrokernelHook {
             this._hooks[name] = []
 
         /*  store callback in hook callback registry  */
-        let id = cnt++
+        const id = cnt++
         this._hooks[name].push({ id: id, cb: cb, ctx: ctx })
         return id
     }
@@ -115,7 +115,7 @@ module.exports = class MicrokernelHook {
         if (typeof this._hooks[name] !== "undefined") {
             this._hooks[name].forEach((l) => {
                 /*  call latched callback  */
-                let r = l.cb.apply(l.ctx, params.concat([ result ]))
+                const r = l.cb.apply(l.ctx, params.concat([ result ]))
 
                 /*  process/merge results  */
                 result = hookProc[proc].step.call(null, result, r)

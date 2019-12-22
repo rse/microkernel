@@ -64,7 +64,7 @@ module.exports = class MicrokernelState {
     /*  retrieve current state or request transition to new state  */
     state (stateNew) {
         /*  special case: retrieve state only  */
-        let stateOld = this._state
+        const stateOld = this._state
         if (typeof stateNew !== "string")
             return stateOld
 
@@ -78,7 +78,7 @@ module.exports = class MicrokernelState {
 
         /*  perform deferred topological sorting of modules  */
         if (this.modOrder === null) {
-            let gdo = new GDO()
+            const gdo = new GDO()
             gdo.groups(this._groups)
             this.mod.forEach((mod) => {
                 gdo.element(mod.module)
@@ -90,14 +90,14 @@ module.exports = class MicrokernelState {
         /*  create outer promise chain  */
         let promise = new Promise((resolve, reject) => {
             /*  determine indexes of states  */
-            let stateOldIdx = this._state2num[stateOld]
-            let stateNewIdx = this._state2num[stateNew]
+            const stateOldIdx = this._state2num[stateOld]
+            const stateNewIdx = this._state2num[stateNew]
 
             /*  create inner promise chain  */
             let seq = Promise.resolve()
 
             /*  publish internal event (for use by an application)  */
-            let publishEvent = (when, from, to, method) => {
+            const publishEvent = (when, from, to, method) => {
                 seq = seq.then(() => {
                     this.hook(`microkernel:state:transit:${when}`, "none",
                         this._num2state[from].state, this._num2state[to].state, method)
@@ -105,7 +105,7 @@ module.exports = class MicrokernelState {
             }
 
             /*  helper function for transitioning  */
-            let transit = (stateFrom, stateTo, methodType, reverse, step) => {
+            const transit = (stateFrom, stateTo, methodType, reverse, step) => {
                 /*  determine modulesdto call (in expected order)  */
                 let names = this._modOrder
                 if (reverse)
@@ -114,14 +114,14 @@ module.exports = class MicrokernelState {
                 /*  loop until state is reached  */
                 while (stateFrom !== stateTo) {
                     /*  determine method to call  */
-                    let methodName = this._num2state[
+                    const methodName = this._num2state[
                         methodType === "enter" ? stateFrom + 1 : stateFrom
                     ][methodType]
                     publishEvent("before", stateFrom, stateFrom + step, methodName)
 
                     /*  call method on all modules  */
                     names.forEach((name) => {
-                        let mod = this.name2mod.get(name)
+                        const mod = this.name2mod.get(name)
                         let method = mod[methodName]
                         /* eslint no-console: 0 */
                         if (typeof method === "function") {

@@ -44,7 +44,7 @@ module.exports = class MicrokernelEvent {
             throw new Error("subscribe: missing arguments")
 
         /*  store subscription  */
-        let id = cnt++
+        const id = cnt++
         if (this._subscription[name] === undefined)
             this._subscription[name] = []
         this._subscription[name].push({ id: id, cb: cb, ctx: ctx })
@@ -83,7 +83,7 @@ module.exports = class MicrokernelEvent {
             return Promise.resolve()
 
         /*  return outer promise  */
-        let promises = []
+        const promises = []
         this._subscription[name].forEach((s) => {
             promises.push(new Promise((resolve /*, reject */) => {
                 /* global setTimeout: true */

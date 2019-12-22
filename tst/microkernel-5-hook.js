@@ -26,7 +26,7 @@ const Microkernel = require("..")
 
 describe("Microkernel Library: Hook", () => {
     it("at()/latch()/unlatch()/hook() functionality", () => {
-        let mk = new Microkernel()
+        const mk = new Microkernel()
         expect(mk).to.respondTo("at")
         expect(mk).to.respondTo("latch")
         expect(mk).to.respondTo("unlatch")

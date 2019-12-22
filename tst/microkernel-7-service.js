@@ -26,7 +26,7 @@ const Microkernel = require("..")
 
 describe("Microkernel Library: Service", () => {
     it("sv()/register()/unregister()/service() functionality", () => {
-        let mk = new Microkernel()
+        const mk = new Microkernel()
         expect(mk).to.respondTo("sv")
         expect(mk).to.respondTo("register")
         expect(mk).to.respondTo("unregister")
