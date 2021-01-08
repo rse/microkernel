@@ -24,8 +24,6 @@
 
 /*  internal hook processing  */
 const hookProc = {
-    /* jscs: disable */
-    /* eslint standard/object-curly-even-spacing: off */
     "none":   { init: undefined,   step: (    ) => {}                        },
     "pass":   { init: (a) => a[0], step: (o, n) => n                         },
     "or":     { init: false,       step: (o, n) => o || n                    },
@@ -38,7 +36,6 @@ const hookProc = {
     "set":    { init: {},          step: (o, n) => { o[n] = true; return o } },
     "insert": { init: new Set(),   step: (o, n) => o.add(n)                  },
     "assign": { init: {},          step: (o, n) => Object.assign(o, n)       }
-    /* jscs: enable */
 }
 
 /*  internal registration counter  */

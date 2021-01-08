@@ -65,7 +65,7 @@ module.exports = class MicrokernelLoader {
             }
             if (typeof arg !== "string")
                 throw new Error("invalid argument")
-            var mods = arg.match(/[*?]/) !== null ? glob.sync(arg) : [ arg ]
+            const mods = arg.match(/[*?]/) !== null ? glob.sync(arg) : [ arg ]
             if (mods.length === 0)
                 throw new Error("no modules found")
             mods.forEach((mod) => {
