@@ -1,5 +1,5 @@
 
-var mod = function () {}
+const mod = function () {}
 
 mod.prototype = {
     module: {

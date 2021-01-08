@@ -1,6 +1,6 @@
 ##
 ##  Microkernel -- Microkernel for Server Applications
-##  Copyright (c) 2015-2019 Dr. Ralf S. Engelschall <rse@engelschall.com>
+##  Copyright (c) 2015-2021 Dr. Ralf S. Engelschall <rse@engelschall.com>
 ##
 ##  Permission is hereby granted, free of charge, to any person obtaining
 ##  a copy of this software and associated documentation files (the
@@ -24,6 +24,6 @@
 
 major: 2
 minor: 0
-micro: 9
-date:  20190616
+micro: 11
+date:  20210108
 
