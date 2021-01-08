@@ -29,7 +29,7 @@ const yaml = require("js-yaml")
 /*  the mixin class  */
 module.exports = class MicrokernelVersion {
     version () {
-        const VERSION = yaml.safeLoad(fs.readFileSync(path.join(__dirname, "..", "VERSION.yml"), "utf8"))
+        const VERSION = yaml.load(fs.readFileSync(path.join(__dirname, "..", "VERSION.yml"), "utf8"))
         return {
             major: VERSION.major,
             minor: VERSION.minor,
